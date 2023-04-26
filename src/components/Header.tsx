@@ -1,5 +1,7 @@
+import { Box } from "@mui/material"
+
 const Header = () => {
-  return <div className="header">Vizualizacija strojnog učenja</div>
+  return <Box className="header">Vizualizacija strojnog učenja</Box>
 }
 
 export default Header

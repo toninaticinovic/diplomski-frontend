@@ -1,0 +1,24 @@
+.form {
+    margin: auto;
+    width: 30%;
+    padding: 1rem;
+    margin-top: 2rem;
+    border: 1px solid #72a0c1;
+}
+
+.form h3 {
+    text-align: center;
+    color: #72a0c1;
+}
+
+.actions {
+    margin-top: 1rem;
+    text-align: center;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.chart-container {
+    margin: auto;
+    width: 65%;
+}

@@ -7,6 +7,19 @@
   padding: 1rem;
   border: 1px solid #72a0c1;
   border-radius: 10px;
-  margin-top:1rem;
-  background-color: #F0F8FF;
+  margin-top: 1rem;
+  background-color: #f0f8ff;
+}
+
+.sub-header {
+  font-size: 24px;
+  width: 20%;
+  margin: auto;
+  color: #7da4c1;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #7da4c1;
+  border-radius: 20px;
+  margin-top: 1rem;
+  background-color: #f4f8fb;
 }
