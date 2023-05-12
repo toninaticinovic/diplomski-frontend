@@ -20,33 +20,49 @@ const DataChart = ({
   setData,
 }: Props) => {
   return (
-    <>
-      <Box>{showTrainData ? "Podaci za trenirajne" : "Svi podaci"}</Box>
-      <Box>
-        <Button onClick={() => setShowTrainData(false)}>
-          Prikaz svih podataka
-        </Button>
-        <Button onClick={() => setShowTrainData(true)}>
-          Prikaz podataka za treniranje
-        </Button>
+    <Box className="chart-container" sx={{ borderColor: "primary.dark" }}>
+      <Box
+        className="chart-header"
+        sx={{ color: "primary.dark" }}
+        component="h3"
+      >
+        {showTrainData ? "PODACI ZA TRENIRANJE" : "SVI PODACI"}
       </Box>
-      <Box className="chart-container">
-        <VictoryChart>
-          <VictoryScatter
-            data={showTrainData ? trainData : data}
-            x={(d) => d.x1}
-            y={(d) => d.x2}
-            style={{
-              data: {
-                fill: ({ datum }) => {
-                  return colors[datum.color]
-                },
+      <Box className="chart-buttons">
+        {showTrainData && (
+          <Button
+            onClick={() => setShowTrainData(false)}
+            size="small"
+            variant="outlined"
+          >
+            Prikaz svih podataka
+          </Button>
+        )}
+        {!showTrainData && (
+          <Button
+            onClick={() => setShowTrainData(true)}
+            size="small"
+            variant="outlined"
+          >
+            Prikaz podataka za treniranje
+          </Button>
+        )}
+      </Box>
+      <VictoryChart>
+        <VictoryScatter
+          data={showTrainData ? trainData : data}
+          x={(d) => d.x1}
+          y={(d) => d.x2}
+          style={{
+            data: {
+              fill: ({ datum }) => {
+                return colors[datum.color]
               },
-            }}
-          />
-        </VictoryChart>
-      </Box>
-    </>
+            },
+          }}
+        />
+      </VictoryChart>
+    </Box>
   )
 }
 

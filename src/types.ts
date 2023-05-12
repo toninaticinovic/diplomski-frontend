@@ -1,5 +1,5 @@
 export type DataPoint = {
   x1: number
-  y2: number
+  x2: number
   color: number
 }

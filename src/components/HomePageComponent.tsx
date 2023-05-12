@@ -6,7 +6,14 @@ const HomePageComponent = () => {
 
   return (
     <Box className="home-page">
-      <Box className="container">
+      <Box
+        className="container"
+        sx={{
+          border: "1px solid",
+          borderColor: "primary.dark",
+          color: "primary.dark",
+        }}
+      >
         <img src="images/regression.png" alt="regression" />
         <p>
           <b>REGRESIJA</b>
@@ -15,6 +22,11 @@ const HomePageComponent = () => {
 
       <Box
         className="container"
+        sx={{
+          border: "1px solid",
+          borderColor: "primary.dark",
+          color: "primary.dark",
+        }}
         onClick={() => {
           navigate("/classification")
         }}

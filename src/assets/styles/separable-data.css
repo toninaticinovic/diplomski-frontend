@@ -1,24 +1,48 @@
 .form {
-    margin: auto;
-    width: 30%;
-    padding: 1rem;
-    margin-top: 2rem;
-    border: 1px solid #72a0c1;
+  margin: auto;
+  width: 30%;
+  padding: 1rem;
+  margin-top: 2rem;
+  border: 1px solid #1565c0;
 }
 
 .form h3 {
-    text-align: center;
-    color: #72a0c1;
+  text-align: center;
 }
 
 .actions {
-    margin-top: 1rem;
-    text-align: center;
-    display: flex;
-    justify-content: flex-end;
+  margin-top: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
 }
 
 .chart-container {
-    margin: auto;
-    width: 65%;
+  margin: auto;
+  min-width: 45%;
+  border: 1px solid;
+}
+
+.chart-header {
+  margin: auto;
+  text-align: center;
+  padding: 1rem;
+}
+
+.chart-buttons {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+}
+
+.chart-iteration {
+  font-size: 1.2rem;
+  text-align: center;
+  vertical-align: center;
 }

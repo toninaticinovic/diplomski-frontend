@@ -1,25 +1,36 @@
 .header {
-  font-size: 32px;
-  width: 40%;
-  margin: auto;
-  color: #72a0c1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1;
+  margin-bottom: 2;
+}
+
+.heading {
+  font-size: 48px;
   text-align: center;
-  padding: 1rem;
-  border: 1px solid #72a0c1;
-  border-radius: 10px;
   margin-top: 1rem;
-  background-color: #f0f8ff;
+  margin-left: 2rem;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  margin-right: 2rem;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .sub-header {
   font-size: 24px;
-  width: 20%;
+  max-width: 30%;
   margin: auto;
-  color: #7da4c1;
   text-align: center;
   padding: 1rem;
-  border: 1px solid #7da4c1;
   border-radius: 20px;
+  /* border: 1px solid; */
   margin-top: 1rem;
-  background-color: #f4f8fb;
+  display: flex;
+  flex-direction: column;
 }

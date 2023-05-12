@@ -13,7 +13,7 @@
   justify-content: center;
   border-radius: 50%;
   padding: 5rem;
-  border: 1px solid #72a0c1;
+  /* border: 1px solid #72a0c1; */
 }
 
 .container img {
@@ -22,7 +22,7 @@
 
 .container p {
   font-size: 24px;
-  color: #72a0c1;
+  /* color: #72a0c1; */
 }
 
 .container:hover{

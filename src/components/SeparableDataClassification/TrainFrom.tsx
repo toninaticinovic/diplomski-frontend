@@ -28,7 +28,9 @@ const criterions = [
 const TrainFrom = ({ onChange, handleSubmit, onCancel, disabled }: Props) => {
   return (
     <form className="form">
-      <h3>Unesite podatke za treniranje modela</h3>
+      <Box component="h3" sx={{ color: "primary.dark" }}>
+        Unesite podatke za treniranje modela
+      </Box>
       <Stack gap={3}>
         <TextField
           label="Broj iteracija"
@@ -65,20 +67,20 @@ const TrainFrom = ({ onChange, handleSubmit, onCancel, disabled }: Props) => {
           </Select>
         </FormControl>
         <TextField
-          label="Stopa učenja"
+          label="Stopa učenja (između 0.1 i 1.0)"
           type="number"
           name="learning_rate"
           onChange={onChange}
-          InputProps={{ inputProps: { min: 0 } }}
+          InputProps={{ inputProps: { min: 0.1, max: 1.0 } }}
           required
         />
       </Stack>
       <Box className="actions">
-        <Button onClick={handleSubmit} disabled={disabled}>
-          Treniraj
-        </Button>
         <Button onClick={onCancel} color="error">
           Odustani
+        </Button>
+        <Button onClick={handleSubmit} disabled={disabled}>
+          Treniraj
         </Button>
       </Box>
     </form>

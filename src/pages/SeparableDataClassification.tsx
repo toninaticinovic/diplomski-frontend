@@ -6,6 +6,9 @@ import { DataPoint } from "../types"
 import DataChart from "../components/SeparableDataClassification/DataChart"
 import DataForm from "../components/SeparableDataClassification/DataForm"
 import Train from "../components/SeparableDataClassification/Train"
+import SubHeader from "../components/SeparableDataClassification/SubHeader"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 
 const SeparableDataClassification = () => {
   const api = Api.getInstance()
@@ -61,46 +64,52 @@ const SeparableDataClassification = () => {
 
   return (
     <>
-      <Box>
-        <h1>Klasifikacija linearno separabilnih podataka</h1>
-      </Box>
-
+      <SubHeader text={" - Linearno odvojivi podaci"} />
       {data.length === 0 && (
-        <DataForm
-          onChange={onChange}
-          handleSubmit={handleSubmit}
-          onCancel={onCancel}
-          disabled={disabled}
-        />
+        <>
+          <DataForm
+            onChange={onChange}
+            handleSubmit={handleSubmit}
+            onCancel={onCancel}
+            disabled={disabled}
+          />
+        </>
       )}
 
       {data.length > 0 && !openTrain && !openTest && (
         <>
-          <Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Button
               onClick={() => {
                 setData([])
                 setShowTrainData(false)
               }}
+              variant="contained"
+              color="error"
+              sx={{ height: "10%", ml: 2 }}
             >
-              Ponovno
+              <ArrowBackIcon />
+              Vrati se na formu
             </Button>
+            <DataChart
+              data={data}
+              trainData={trainData}
+              showTrainData={showTrainData}
+              setShowTrainData={setShowTrainData}
+              setData={setData}
+            />
             <Button
               onClick={() => {
                 setOpenTrain(true)
               }}
+              variant="contained"
+              color="success"
+              sx={{ height: "10%", mr:2}}
             >
-              {" "}
-              Train
+              Treniraj podatke
+              <ArrowForwardIcon />
             </Button>
           </Box>
-          <DataChart
-            data={data}
-            trainData={trainData}
-            showTrainData={showTrainData}
-            setShowTrainData={setShowTrainData}
-            setData={setData}
-          />
         </>
       )}
 

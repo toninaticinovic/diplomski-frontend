@@ -10,7 +10,9 @@ type Props = {
 const DataForm = ({ onChange, handleSubmit, onCancel, disabled }: Props) => {
   return (
     <form className="form">
-      <h3>Unesite broj klasa i broj podataka za klasifikaciju</h3>
+      <Box component="h3" sx={{ color: "primary.dark" }}>
+        Unesite broj klasa i broj podataka za klasifikaciju
+      </Box>
       <Stack gap={3}>
         <TextField
           label="Broj podataka"
@@ -29,20 +31,20 @@ const DataForm = ({ onChange, handleSubmit, onCancel, disabled }: Props) => {
           required
         />
         <TextField
-          label="Veličina skupa za treniranje"
+          label="Veličina skupa za treniranje (između 0.1 i 1.0)"
           type="number"
           name="train_size"
           onChange={onChange}
-          InputProps={{ inputProps: { min: 0, max: 1 } }}
+          InputProps={{ inputProps: { min: 0.1, max: 1 } }}
           required
         />
       </Stack>
       <Box className="actions">
-        <Button onClick={handleSubmit} disabled={disabled}>
-          Generiraj linerano separabilne podatke
-        </Button>
         <Button onClick={onCancel} color="error">
           Odustani
+        </Button>
+        <Button onClick={handleSubmit} disabled={disabled}>
+          Generiraj linerano separabilne podatke
         </Button>
       </Box>
     </form>

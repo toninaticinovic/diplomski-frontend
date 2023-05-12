@@ -2,6 +2,10 @@ import { useState } from "react"
 import { Api } from "../../api"
 import { DataPoint } from "../../types"
 import TrainFrom from "./TrainFrom"
+import AnimationChart from "./AnimationChart"
+import { Box, Button } from "@mui/material"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 
 type Props = {
   trainData: DataPoint[]
@@ -15,6 +19,8 @@ type FormValues = {
   learning_rate: string
 }
 
+export type LineParams = { w1: number; w2: number; b: number }
+
 const Train = ({ trainData, setOpenTrain }: Props) => {
   const api = Api.getInstance()
 
@@ -26,14 +32,14 @@ const Train = ({ trainData, setOpenTrain }: Props) => {
     criterion: "",
     learning_rate: "",
   })
-  const [lineParams, setLineParams] = useState([])
+  const [lineParams, setLineParams] = useState<LineParams[]>([])
 
   const handleSubmit = async () => {
     try {
       const result = await api.trainSeparableDataClassification(
         trainData,
         parseInt(formValues.max_iter),
-        parseInt(formValues.learning_rate),
+        parseFloat(formValues.learning_rate),
         formValues.optimizer,
         formValues.criterion
       )
@@ -75,7 +81,36 @@ const Train = ({ trainData, setOpenTrain }: Props) => {
       )}
 
       {/* add reset and back button */}
-      {lineParams.length > 0 && <div>Tonina zavrsi ovo </div>}
+      {lineParams.length > 0 && (
+        <>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Button
+              onClick={() => {
+                setLineParams([])
+              }}
+              variant="contained"
+              color="error"
+              sx={{ height: "10%", ml: 2 }}
+            >
+              <ArrowBackIcon />
+              Vrati se na formu
+            </Button>
+            <AnimationChart lineParams={lineParams} trainData={trainData} />
+            <Button
+              onClick={() => {
+                setOpenTrain(true)
+              }}
+              variant="contained"
+              color="success"
+              sx={{ height: "10%", mr: 2 }}
+            >
+              {/* //TODO: smisli bolji naziv  */}
+              idi na testiranje
+              <ArrowForwardIcon />
+            </Button>
+          </Box>
+        </>
+      )}
     </>
   )
 }
