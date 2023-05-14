@@ -1,22 +1,23 @@
 import { Box, IconButton } from "@mui/material"
 import { VictoryChart, VictoryLine, VictoryScatter } from "victory"
-import { LineParams } from "./Train"
-import { DataPoint } from "../../types"
+import { DataPoint, LineParams, FormValues } from "../../types"
 import { useEffect, useState } from "react"
 import RefreshIcon from "@mui/icons-material/Refresh"
+import FastForwardIcon from "@mui/icons-material/FastForward"
+import { criterions, optimizers, colors } from "../../constants"
 
 type Props = {
   lineParams: LineParams[]
   trainData: DataPoint[]
+  formValues: FormValues
 }
 
-const colors = ["red", "blue", "green", "yellow"]
-
-const AnimationChart = ({ lineParams, trainData }: Props) => {
+const AnimationChart = ({ lineParams, trainData, formValues }: Props) => {
   const [iteration, setIteration] = useState(0)
+  const [fastForward, setFastForward] = useState(false)
 
   useEffect(() => {
-    if (iteration === lineParams.length - 1) {
+    if (iteration === lineParams.length - 1 || fastForward) {
       return
     }
     const intervalId = window.setInterval(() => {
@@ -24,7 +25,17 @@ const AnimationChart = ({ lineParams, trainData }: Props) => {
     }, 100)
 
     return () => window.clearInterval(intervalId)
-  }, [iteration, lineParams])
+  }, [iteration, lineParams, fastForward])
+
+  const handleRefresh = () => {
+    setFastForward(false)
+    setIteration(0)
+  }
+
+  const handleFastForward = () => {
+    setFastForward(true)
+    setIteration(lineParams.length - 1)
+  }
 
   const w1 = lineParams[iteration].w1
   const w2 = lineParams[iteration].w2
@@ -57,8 +68,11 @@ const AnimationChart = ({ lineParams, trainData }: Props) => {
           }}
         >
           Iteracija: {iteration + 1} / {lineParams.length}
-          <IconButton onClick={() => setIteration(0)} color="primary">
+          <IconButton onClick={handleRefresh} color="primary">
             <RefreshIcon />
+          </IconButton>
+          <IconButton onClick={handleFastForward} color="primary">
+            <FastForwardIcon />
           </IconButton>
         </Box>
       </Box>
@@ -77,6 +91,34 @@ const AnimationChart = ({ lineParams, trainData }: Props) => {
         />
         <VictoryLine data={lineData} style={{ data: { stroke: "black" } }} />
       </VictoryChart>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          fontSize: "12px",
+          color: "primary.main",
+        }}
+      >
+        <Box>
+          {" "}
+          Funkcija gubitka:{" "}
+          {
+            criterions.find(
+              (criterion) => criterion.value === formValues.criterion
+            )?.label
+          }
+        </Box>
+        <Box>
+          {" "}
+          Optimizator:{" "}
+          {
+            optimizers.find(
+              (optimizer) => optimizer.value === formValues.optimizer
+            )?.label
+          }
+        </Box>
+        <Box>Stopa učenja: {formValues.learning_rate}</Box>
+      </Box>
     </Box>
   )
 }

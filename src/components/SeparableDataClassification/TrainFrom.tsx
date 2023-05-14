@@ -8,6 +8,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material"
+import { criterions, optimizers } from "../../constants"
 
 type Props = {
   onChange: (e: any) => void
@@ -15,15 +16,6 @@ type Props = {
   onCancel: () => void
   disabled: boolean
 }
-
-const optimizers = [
-  { value: "SGD", label: "SGD Optimizator" },
-  { value: "Adam", label: "Adam Optimizator" },
-]
-const criterions = [
-  { value: "BCELoss", label: "Binarna unakrsna entropija" },
-  { value: "HingeEmbeddingLoss", label: "Gubitak zglobnice" },
-]
 
 const TrainFrom = ({ onChange, handleSubmit, onCancel, disabled }: Props) => {
   return (

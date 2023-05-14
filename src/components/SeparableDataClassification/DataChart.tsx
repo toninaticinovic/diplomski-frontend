@@ -1,23 +1,20 @@
 import { Box, Button } from "@mui/material"
 import { VictoryChart, VictoryScatter } from "victory"
 import { DataPoint } from "../../types"
+import { colors } from "../../constants"
 
 type Props = {
   showTrainData: boolean
   setShowTrainData: (showTrainData: boolean) => void
-  setData: (data: DataPoint[]) => void
   data: DataPoint[]
   trainData: DataPoint[]
 }
-
-const colors = ["red", "blue", "green", "yellow"]
 
 const DataChart = ({
   data,
   trainData,
   showTrainData,
   setShowTrainData,
-  setData,
 }: Props) => {
   return (
     <Box className="chart-container" sx={{ borderColor: "primary.dark" }}>
@@ -26,7 +23,9 @@ const DataChart = ({
         sx={{ color: "primary.dark" }}
         component="h3"
       >
-        {showTrainData ? "PODACI ZA TRENIRANJE" : "SVI PODACI"}
+        {showTrainData
+          ? `PODACI ZA TRENIRANJE (${trainData.length})`
+          : `SVI PODACI (${data.length})`}
       </Box>
       <Box className="chart-buttons">
         {showTrainData && (
@@ -62,6 +61,16 @@ const DataChart = ({
           }}
         />
       </VictoryChart>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          fontSize: "12px",
+          color:'primary.main'
+        }}
+      >
+        <Box>Broj klasa: {new Set(data.map((d) => d.color)).size}</Box>
+      </Box>
     </Box>
   )
 }

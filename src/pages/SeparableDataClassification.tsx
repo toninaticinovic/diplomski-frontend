@@ -23,6 +23,8 @@ const SeparableDataClassification = () => {
 
   const [showTrainData, setShowTrainData] = useState(false)
 
+  const [loadingTrainData, setLoadingTrainData] = useState(false)
+
   const [formValues, setFormValues] = useState({
     n_samples: "",
     classes: "",
@@ -31,6 +33,7 @@ const SeparableDataClassification = () => {
 
   const handleSubmit = async () => {
     try {
+      setLoadingTrainData(true)
       const result = await api.generateSeparableDataClassification(
         parseInt(formValues.n_samples),
         parseInt(formValues.classes),
@@ -42,7 +45,7 @@ const SeparableDataClassification = () => {
     } catch (e: any) {
       console.error(String(e))
     } finally {
-      //   setLoadingGameDetails(false)
+      setLoadingTrainData(false)
     }
   }
 
@@ -72,6 +75,7 @@ const SeparableDataClassification = () => {
             handleSubmit={handleSubmit}
             onCancel={onCancel}
             disabled={disabled}
+            loading={loadingTrainData}
           />
         </>
       )}
@@ -96,7 +100,6 @@ const SeparableDataClassification = () => {
               trainData={trainData}
               showTrainData={showTrainData}
               setShowTrainData={setShowTrainData}
-              setData={setData}
             />
             <Button
               onClick={() => {
@@ -104,7 +107,7 @@ const SeparableDataClassification = () => {
               }}
               variant="contained"
               color="success"
-              sx={{ height: "10%", mr:2}}
+              sx={{ height: "10%", mr: 2 }}
             >
               Treniraj podatke
               <ArrowForwardIcon />

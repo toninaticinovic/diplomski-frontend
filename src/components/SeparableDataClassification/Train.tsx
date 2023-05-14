@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Api } from "../../api"
-import { DataPoint } from "../../types"
+import { DataPoint, FormValues, LineParams } from "../../types"
 import TrainFrom from "./TrainFrom"
 import AnimationChart from "./AnimationChart"
 import { Box, Button } from "@mui/material"
@@ -11,15 +11,6 @@ type Props = {
   trainData: DataPoint[]
   setOpenTrain: (showTrainData: boolean) => void
 }
-
-type FormValues = {
-  max_iter: string
-  optimizer: "" | "Adam" | "SGD"
-  criterion: "" | "BSELoss" | "HingeEmbeddingLoss"
-  learning_rate: string
-}
-
-export type LineParams = { w1: number; w2: number; b: number }
 
 const Train = ({ trainData, setOpenTrain }: Props) => {
   const api = Api.getInstance()
@@ -95,7 +86,11 @@ const Train = ({ trainData, setOpenTrain }: Props) => {
               <ArrowBackIcon />
               Vrati se na formu
             </Button>
-            <AnimationChart lineParams={lineParams} trainData={trainData} />
+            <AnimationChart
+              lineParams={lineParams}
+              trainData={trainData}
+              formValues={formValues}
+            />
             <Button
               onClick={() => {
                 setOpenTrain(true)
