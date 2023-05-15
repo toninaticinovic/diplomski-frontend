@@ -13,7 +13,7 @@ const DataForm = ({
   handleSubmit,
   onCancel,
   disabled,
-  loading,
+  loading
 }: Props) => {
   return (
     <form className="form">
@@ -57,7 +57,7 @@ const DataForm = ({
               Odustani
             </Button>
             <Button onClick={handleSubmit} disabled={disabled}>
-              Generiraj linerano separabilne podatke
+              Generiraj podatke
             </Button>
           </Box>
         </>

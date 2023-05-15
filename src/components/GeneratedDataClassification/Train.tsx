@@ -9,37 +9,43 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 
 type Props = {
   trainData: DataPoint[]
-  setOpenTrain: (showTrainData: boolean) => void
+  setOpenTrain: (open: boolean) => void
+  setOpenTest: (open: boolean) => void
+  lineParams: LineParams[]
+  setLineParams: (lineParams: LineParams[]) => void
 }
 
-const Train = ({ trainData, setOpenTrain }: Props) => {
+const Train = ({
+  trainData,
+  setOpenTrain,
+  setOpenTest,
+  lineParams,
+  setLineParams,
+}: Props) => {
   const api = Api.getInstance()
-
-  //   const navigate = useNavigate()
-  //   const [data, setData] = useState<DataPoint[]>([])
   const [formValues, setFormValues] = useState<FormValues>({
     max_iter: "",
     optimizer: "",
     criterion: "",
     learning_rate: "",
   })
-  const [lineParams, setLineParams] = useState<LineParams[]>([])
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async () => {
+    setLoading(true)
     try {
-      const result = await api.trainSeparableDataClassification(
+      const result = await api.trainGeneratedDataClassification(
         trainData,
         parseInt(formValues.max_iter),
         parseFloat(formValues.learning_rate),
         formValues.optimizer,
         formValues.criterion
       )
-      console.log("result", result)
       setLineParams(result.line_params)
     } catch (e: any) {
       console.error(String(e))
     } finally {
-      //   setLoadingGameDetails(false)
+      setLoading(false)
     }
   }
 
@@ -50,8 +56,23 @@ const Train = ({ trainData, setOpenTrain }: Props) => {
     }))
   }
 
+  const handleReturnToForm = () => {
+    setFormValues({
+      max_iter: "",
+      optimizer: "",
+      criterion: "",
+      learning_rate: "",
+    })
+    setLineParams([])
+  }
+
   const onCancel = () => {
     setOpenTrain(false)
+  }
+
+  const handleOpenTest = () => {
+    setOpenTrain(false)
+    setOpenTest(true)
   }
 
   const disabled =
@@ -68,17 +89,15 @@ const Train = ({ trainData, setOpenTrain }: Props) => {
           handleSubmit={handleSubmit}
           onCancel={onCancel}
           disabled={disabled}
+          loading={loading}
         />
       )}
 
-      {/* add reset and back button */}
       {lineParams.length > 0 && (
         <>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Button
-              onClick={() => {
-                setLineParams([])
-              }}
+              onClick={handleReturnToForm}
               variant="contained"
               color="error"
               sx={{ height: "10%", ml: 2 }}
@@ -92,9 +111,7 @@ const Train = ({ trainData, setOpenTrain }: Props) => {
               formValues={formValues}
             />
             <Button
-              onClick={() => {
-                setOpenTrain(true)
-              }}
+              onClick={handleOpenTest}
               variant="contained"
               color="success"
               sx={{ height: "10%", mr: 2 }}

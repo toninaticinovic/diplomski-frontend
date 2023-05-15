@@ -47,3 +47,14 @@
   text-align: center;
   vertical-align: center;
 }
+
+.results-table {
+  margin: auto;
+  border: 1px solid;
+  margin-top: 2rem;
+  border-collapse: separate;
+}
+
+.results-table-labels div {
+  font-weight: 700;
+}

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import SubHeader from "../components/SeparableDataClassification/SubHeader"
+import SubHeader from "../components/GeneratedDataClassification/SubHeader"
 
 const Classification = () => {
   const navigate = useNavigate()
@@ -7,8 +7,8 @@ const Classification = () => {
   return (
     <>
       <SubHeader />
-      <button onClick={() => navigate("/classification/separable")}>
-        Klasifikacija podataka koji su linearno separabilni
+      <button onClick={() => navigate("/classification/generate")}>
+        Generiraj podatke i treniraj klasifikacijski model
       </button>
     </>
   )

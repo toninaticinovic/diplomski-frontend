@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Header from "./components/Header"
 import HomePage from "./pages/HomePage"
 import Classification from "./pages/Classification"
-import SeparableDataClassification from "./pages/SeparableDataClassification"
+import GeneratedDataClassification from "./pages/GeneratedDataClassification"
 
 function App() {
   return (
@@ -11,8 +11,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/classification/separable"
-            element={<SeparableDataClassification />}
+            path="/classification/generate"
+            element={<GeneratedDataClassification />}
           />
           <Route path="/classification" element={<Classification />} />
           <Route path="/" element={<HomePage />} />
