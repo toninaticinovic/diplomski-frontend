@@ -25,7 +25,7 @@
   /* color: #72a0c1; */
 }
 
-.container:hover{
-    background-color:  #F0F8FF;
-    cursor: pointer;
+.container:hover {
+  background-color: #f0f8ff;
+  cursor: pointer;
 }

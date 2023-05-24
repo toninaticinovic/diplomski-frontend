@@ -4,8 +4,8 @@ import { Api } from "../api"
 import { DataPoint, LineParams } from "../types"
 import DataChart from "../components/GeneratedDataClassification/DataChart"
 import DataForm from "../components/GeneratedDataClassification/DataForm"
-import Train from "../components/GeneratedDataClassification/Train"
-import SubHeader from "../components/GeneratedDataClassification/SubHeader"
+import Train from "../components/Train"
+import SubHeader from "../components/SubHeader"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import Test from "../components/GeneratedDataClassification/Test"
@@ -27,7 +27,6 @@ const GeneratedDataClassification = () => {
 
   const [formValues, setFormValues] = useState({
     n_samples: "",
-    classes: "",
     train_size: "",
   })
 
@@ -40,13 +39,11 @@ const GeneratedDataClassification = () => {
       if (separable) {
         result = await api.generateSeparableDataClassification(
           parseInt(formValues.n_samples),
-          parseInt(formValues.classes),
           parseFloat(formValues.train_size)
         )
       } else {
         result = await api.generateNonSeparableDataClassification(
           parseInt(formValues.n_samples),
-          parseInt(formValues.classes),
           parseFloat(formValues.train_size)
         )
       }
@@ -71,16 +68,13 @@ const GeneratedDataClassification = () => {
     setSeparable(undefined)
   }
 
-  const disabled =
-    formValues.n_samples === "" ||
-    formValues.classes === "" ||
-    formValues.train_size === ""
+  const disabled = formValues.n_samples === "" || formValues.train_size === ""
 
   return (
     <>
       {separable === undefined && (
         <>
-          <SubHeader />
+          <SubHeader showButton={true} text={"BINARNA KLASIFIKACIJA"} />
           <Box
             sx={{ display: "flex", justifyContent: "center", mt: 5, gap: 3 }}
           >
@@ -105,7 +99,10 @@ const GeneratedDataClassification = () => {
       {separable !== undefined && (
         <>
           <SubHeader
-            text={`- Linearno ${separable ? "odvojivi" : "neodvojivi"} podaci`}
+            text={`BINARNA KLASIFIKACIJA - Linearno ${
+              separable ? "odvojivi" : "neodvojivi"
+            } podaci`}
+            showButton={true}
           />
           {data.length === 0 && (
             <>
@@ -121,7 +118,7 @@ const GeneratedDataClassification = () => {
 
           {data.length > 0 && !openTrain && !openTest && (
             <>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
                 <Button
                   onClick={() => {
                     setData([])

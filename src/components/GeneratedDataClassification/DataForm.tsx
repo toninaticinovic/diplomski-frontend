@@ -1,4 +1,11 @@
-import { Box, Button, CircularProgress, Stack, TextField } from "@mui/material"
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  TextField,
+} from "@mui/material"
 
 type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -13,12 +20,13 @@ const DataForm = ({
   handleSubmit,
   onCancel,
   disabled,
-  loading
+  loading,
 }: Props) => {
   return (
     <form className="form">
       <Box component="h3" sx={{ color: "primary.dark" }}>
-        Unesite broj klasa i broj podataka za klasifikaciju
+        Unesite broj podataka za klasifikaciju i odaberite veličinu skupa za
+        treniranje
       </Box>
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -26,6 +34,9 @@ const DataForm = ({
         </Box>
       ) : (
         <>
+          <Alert severity="info" sx={{ mb: 2 }}>
+            Ulazni podaci su 2-dimenzionalni.
+          </Alert>
           <Stack gap={3}>
             <TextField
               label="Broj podataka"
@@ -33,14 +44,6 @@ const DataForm = ({
               name="n_samples"
               onChange={onChange}
               InputProps={{ inputProps: { min: 0 } }}
-              required
-            />
-            <TextField
-              label="Broj klasa"
-              type="number"
-              name="classes"
-              onChange={onChange}
-              InputProps={{ inputProps: { min: 0, max: 4 } }}
               required
             />
             <TextField

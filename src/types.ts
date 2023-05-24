@@ -4,7 +4,6 @@ export type DataPoint = {
   color: number
 }
 
-
 export type FormValues = {
   max_iter: string
   optimizer: "" | "Adam" | "SGD"
@@ -13,6 +12,7 @@ export type FormValues = {
 }
 
 export type LineParams = { w1: number; w2: number; b: number }
+export type LossParams = { loss: number; epoch: number }
 
 export type TestResult = {
   confusion_matrix_test: number[][]
@@ -21,4 +21,31 @@ export type TestResult = {
   accuracy_train: number
   f1_score_test: number
   f1_score_train: number
+}
+
+export type StatisticalAnalysisResult = {
+  column: string
+  max: number
+  min: number
+  null: number
+  std: number
+  unique: number
+  is_numerical: boolean
+  mean: number
+  median: number
+}
+
+export type BoxPlotResult = {
+  x: string
+  y: number[]
+}
+
+export type HistogramResult = {
+  column: string
+  x: number[]
+  y: number[]
+}
+
+export type DatasetObject = {
+  [key: string]: number | undefined
 }

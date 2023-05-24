@@ -3,6 +3,9 @@ import Header from "./components/Header"
 import HomePage from "./pages/HomePage"
 import Classification from "./pages/Classification"
 import GeneratedDataClassification from "./pages/GeneratedDataClassification"
+import DatasetListClassification from "./pages/DatasetListClassification"
+import DatasetClassification from "./pages/DatasetClassification"
+
 
 function App() {
   return (
@@ -10,6 +13,14 @@ function App() {
       <Header />
       <BrowserRouter>
         <Routes>
+        <Route
+            path="/classification/dataset/:datasetName"
+            element={<DatasetClassification />}
+          />
+          <Route
+            path="/classification/dataset"
+            element={<DatasetListClassification />}
+          />
           <Route
             path="/classification/generate"
             element={<GeneratedDataClassification />}

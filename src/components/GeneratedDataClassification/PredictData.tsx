@@ -55,7 +55,7 @@ const PredictData = ({ lineParams, data }: Props) => {
 
   return (
     <>
-      {result === "" && (
+      {!loading && result === "" && (
         <PredictDataForm
           onChange={onChange}
           handleSubmit={handleSubmit}

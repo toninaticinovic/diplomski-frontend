@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   CircularProgress,
@@ -9,7 +10,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material"
-import { criterions, optimizers } from "../../constants"
+import { criterions, optimizers } from "../constants"
 
 type Props = {
   onChange: (e: any) => void
@@ -17,6 +18,7 @@ type Props = {
   onCancel: () => void
   disabled: boolean
   loading: boolean
+  dimension: number
 }
 
 const TrainFrom = ({
@@ -25,6 +27,7 @@ const TrainFrom = ({
   onCancel,
   disabled,
   loading,
+  dimension,
 }: Props) => {
   return (
     <form className="form">
@@ -37,6 +40,12 @@ const TrainFrom = ({
         </Box>
       ) : (
         <>
+          {dimension > 2 && (
+            <Alert severity="info" sx={{ mb: 2 }}>
+              {`Ulazni podaci su ${dimension}-d dimenzije, stoga će umjesto animacije treniranja
+              biti prikazan graf funkcije gubitka kroz iteracije na skupu za treniranje!`}
+            </Alert>
+          )}
           <Stack gap={3}>
             <TextField
               label="Broj iteracija"
@@ -55,7 +64,9 @@ const TrainFrom = ({
                 required
               >
                 {criterions.map((option) => (
-                  <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
+                  <MenuItem value={option.value} key={option.value}>
+                    {option.label}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -68,7 +79,9 @@ const TrainFrom = ({
                 required
               >
                 {optimizers.map((option) => (
-                  <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
+                  <MenuItem value={option.value} key={option.value}>
+                    {option.label}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>

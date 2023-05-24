@@ -11,10 +11,11 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 interface Props {
-  text?: string
+  text: string
+  showButton: boolean
 }
 
-const SubHeader = ({ text }: Props) => {
+const SubHeader = ({ text, showButton }: Props) => {
   const navigate = useNavigate()
   const [openWarning, setOpenWarning] = useState(false)
 
@@ -26,8 +27,8 @@ const SubHeader = ({ text }: Props) => {
   return (
     <>
       <Box className="sub-header" sx={{ color: "warning.dark" }}>
-        KLASIFIKACIJA {text ?? text}
-        {text && (
+        {text}
+        {showButton && (
           <Button
             color="warning"
             variant="outlined"

@@ -1,0 +1,80 @@
+.datasets-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  row-gap: 4rem;
+  margin-top: 2rem;
+}
+
+.datasets-card {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.datasets-card:hover {
+  cursor: pointer;
+  background-color: #f0f8ff;
+}
+
+.label {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.description {
+  text-align: center;
+  width: 80%;
+  margin: auto;
+  margin-bottom: 1rem;
+  font-weight: lighter;
+}
+
+.statistical-table {
+  margin: auto;
+  border: 1px solid;
+  margin-top: 2rem;
+}
+
+.statistical-table-labels th {
+  font-weight: 700;
+  text-align: center;
+}
+
+.statistical-table-values td {
+  text-align: center;
+}
+
+.box-plot-container {
+  margin: auto;
+  width: 80%;
+  margin-top: 5rem;
+}
+
+.control-dots{
+  margin-bottom: 0;
+}
+.carousel-slider {
+  height: 100%;
+}
+
+.form-dialog {
+  margin: auto;
+  width: 30%;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.loss-chart-container {
+  margin: auto;
+  width: 45%;
+  border: 1px solid;
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 1rem;
+}

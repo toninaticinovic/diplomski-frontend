@@ -1,8 +1,19 @@
+.classification-buttons {
+  width: 40%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
 .form {
   margin: auto;
   width: 30%;
   padding: 1rem;
   margin-top: 2rem;
+  margin-bottom: 2rem;
   border: 1px solid #1565c0;
 }
 
@@ -33,7 +44,7 @@
 .chart-header {
   margin: auto;
   text-align: center;
-  padding: 1rem;
+  margin-top: 2rem;
 }
 
 .chart-buttons {
