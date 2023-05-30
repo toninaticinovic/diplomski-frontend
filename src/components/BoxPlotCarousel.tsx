@@ -13,8 +13,8 @@ const getChartOptions = (boxPlotData: BoxPlotResult) => {
   const data = {
     x: boxPlotData.x,
     y: boxPlotData.y,
+    outliers: boxPlotData.outliers,
   }
-
 
   const options = {
     series: [
@@ -26,20 +26,36 @@ const getChartOptions = (boxPlotData: BoxPlotResult) => {
     ],
     chart: {
       type: "boxPlot",
-      height: 350,
+      height: 500,
     },
     title: {
-      text: `Box Plot Dijagram - ${boxPlotData.x}`,
+      text: `Box Plot Diagram - ${boxPlotData.x}`,
       align: "left",
     },
     plotOptions: {
       boxPlot: {
         colors: {
-          upper: "#008FFB",
-          lower: "#FEB019",
+          upper: "#66bfbf",
+          lower: "#f76b8a",
         },
-        showOutliers: true,
+        showOutliers: false,
       },
+      scatter: {
+        markers: {
+          size: 5,
+          fillColors: "#edb1f1",
+        },
+      },
+    },
+    annotations: {
+      points: boxPlotData.outliers.map((outlier) => ({
+        x: boxPlotData.x,
+        y: outlier,
+        marker: {
+          size: 5,
+          fillColor: "#edb1f1",
+        },
+      })),
     },
   }
 

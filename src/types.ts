@@ -13,6 +13,7 @@ export type FormValues = {
 
 export type LineParams = { w1: number; w2: number; b: number }
 export type LossParams = { loss: number; epoch: number }
+export type LatestParams = { w: number[][]; b: number }
 
 export type TestResult = {
   confusion_matrix_test: number[][]
@@ -35,15 +36,21 @@ export type StatisticalAnalysisResult = {
   median: number
 }
 
-export type BoxPlotResult = {
-  x: string
-  y: number[]
+export type DataSize = {
+  count: number
+  dimension: number
 }
 
 export type HistogramResult = {
   column: string
   x: number[]
   y: number[]
+}
+
+export type BoxPlotResult = {
+  x: string
+  y: number[]
+  outliers: number[]
 }
 
 export type DatasetObject = {

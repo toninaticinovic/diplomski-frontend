@@ -5,7 +5,7 @@ import {
   VictoryLine,
   VictoryScatter,
 } from "victory"
-import { DataPoint, LineParams } from "../../types"
+import { DataPoint, LatestParams } from "../../types"
 import { colors } from "../../constants"
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
   data: DataPoint[]
   trainData?: DataPoint[]
   point?: DataPoint
-  lineParams?: LineParams[]
+  latestParams?: LatestParams
 }
 
 const DataChart = ({
@@ -23,17 +23,18 @@ const DataChart = ({
   showTrainData,
   setShowTrainData,
   point,
-  lineParams,
+  latestParams,
 }: Props) => {
   const expandedData = [...data, point]
 
+  console.log(point)
+
   let lineData
 
-  const index = data.length - 1
-  if (lineParams !== undefined) {
-    const w1 = lineParams[index].w1
-    const w2 = lineParams[index].w2
-    const b = lineParams[index].b
+  if (latestParams !== undefined) {
+    const w1 = latestParams.w[0][0] as number
+    const w2 = latestParams.w[0][1] as number
+    const b = latestParams.b
     const xMin = Math.min(...data.map((d) => d.x1), point?.x1 || 25555)
     const xMax = Math.max(...data.map((d) => d.x1), point?.x1 || -25555)
 

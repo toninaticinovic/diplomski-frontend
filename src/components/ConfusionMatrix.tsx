@@ -10,7 +10,7 @@ const ConfusionMatrix = ({ matrix }: Props) => {
       {matrix.map((row, rowIndex) => (
         <Box
           key={rowIndex}
-          sx={{ display: "flex", justifyContent: "space-around" }}
+          sx={{ display: "flex", justifyContent: "center", gap: 5 }}
         >
           {row.map((cell, cellIndex) => (
             <Box key={cellIndex}>{cell}</Box>

@@ -46,6 +46,10 @@ const TrainFrom = ({
               biti prikazan graf funkcije gubitka kroz iteracije na skupu za treniranje!`}
             </Alert>
           )}
+          <Alert severity="info" sx={{ mb: 2 }}>
+            Pri svakom pokretanju treniranja modela, stvara se nova instanca
+            modela, s nasumično dodijeljenim težinama.
+          </Alert>
           <Stack gap={3}>
             <TextField
               label="Broj iteracija"

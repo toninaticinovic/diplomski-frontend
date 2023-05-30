@@ -14,6 +14,7 @@ const getChartOptions = (histogramData: HistogramResult) => {
     series: [
       {
         data: histogramData.y,
+        color: "#66bfbf",
       },
     ],
     chart: {

@@ -6,6 +6,9 @@ import {
   HistogramResult,
   LossParams,
   StatisticalAnalysisResult,
+  LatestParams,
+  DataSize,
+  FormValues,
 } from "../types"
 import StatisticalAnalysisTable from "../components/StatisticalAnalysisTable"
 import { Api } from "../api"
@@ -25,6 +28,7 @@ import BoxPlotCarousel from "../components/BoxPlotCarousel"
 import HistogramCarousel from "../components/HistogramCarousel"
 import TrainSetForm from "../components/DatasetClassification/TrainSetForm"
 import Train from "../components/Train"
+import Test from "../components/GeneratedDataClassification/Test"
 
 const DatasetClassification = () => {
   const api = Api.getInstance()
@@ -36,6 +40,7 @@ const DatasetClassification = () => {
   const [statisticalAnalysisResult, setStatisticalAnalysisResult] = useState<
     StatisticalAnalysisResult[]
   >([])
+  const [dataSize, setDataSize] = useState<DataSize | undefined>(undefined)
 
   const [boxPlotData, setBoxPlotData] = useState<BoxPlotResult[]>([])
   const [histogramData, setHistogramData] = useState<HistogramResult[]>([])
@@ -50,6 +55,14 @@ const DatasetClassification = () => {
   const [openTest, setOpenTest] = useState(false)
 
   const [lossParams, setLossParams] = useState<LossParams[]>([])
+  const [latestParams, setLatestParams] = useState<LatestParams>()
+
+  const [formValues, setFormValues] = useState<FormValues>({
+    max_iter: "",
+    optimizer: "",
+    criterion: "",
+    learning_rate: "",
+  })
 
   async function staticAnalysis() {
     setLoading(true)
@@ -58,6 +71,7 @@ const DatasetClassification = () => {
         datasetName ?? ""
       )
       setLabel(result.label)
+      setDataSize(result.data_size)
       setStatisticalAnalysisResult(result.data_stats)
     } catch (e: any) {
       console.error(String(e))
@@ -95,13 +109,11 @@ const DatasetClassification = () => {
 
   const handleSubmit = async () => {
     setLoadingForm(true)
-    console.log('submit')
     try {
       const result = await api.getClassificationDatasetSets(
         datasetName ?? "",
         trainSize
       )
-      console.log(result)
       setTrainSet(result.train_data)
       setTestSet(result.test_data)
       setTrainSize("")
@@ -113,7 +125,12 @@ const DatasetClassification = () => {
     }
   }
 
-  //TODO: implement test component
+  const onChangeTrain = (e: any) => {
+    setFormValues((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
 
   if (loading) {
     return (
@@ -135,11 +152,29 @@ const DatasetClassification = () => {
           setOpenTrain={setOpenTrain}
           setOpenTest={setOpenTest}
           setOpenForm={setOpenForm}
-          dataset={datasetName ?? ""}
+          dataset={datasetName}
           setLossParams={setLossParams}
           lossParams={lossParams}
+          setLatestParams={setLatestParams}
+          formValues={formValues}
+          setFormValues={setFormValues}
+          onChange={onChangeTrain}
         />
       </>
+    )
+  }
+
+  if (openTest) {
+    return (
+      <Test
+        data={[]}
+        trainData={trainSet}
+        testData={testSet}
+        setOpenTrain={setOpenTrain}
+        setOpenTest={setOpenTest}
+        latestParams={latestParams ?? { w: [], b: 0 }}
+        dataset={datasetName}
+      />
     )
   }
 
@@ -176,6 +211,9 @@ const DatasetClassification = () => {
           Treniraj podatke
           <ArrowForwardIcon />
         </Button>
+      </Box>
+      <Box sx={{ mt: 1, textAlign: "center" }}>
+        {`Broj podataka: ${dataSize?.count}, dimezija ulaznih podataka: ${dataSize?.dimension}`}
       </Box>
       <StatisticalAnalysisTable dataStats={statisticalAnalysisResult} />
 

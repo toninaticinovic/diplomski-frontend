@@ -6,6 +6,7 @@ import {
   FormValues,
   LineParams,
   LossParams,
+  LatestParams,
 } from "../types"
 import TrainFrom from "./TrainFrom"
 import AnimationChart from "./GeneratedDataClassification/AnimationChart"
@@ -24,6 +25,10 @@ type Props = {
   setLineParams?: (lineParams: LineParams[]) => void
   lossParams?: LossParams[]
   setLossParams?: (lossParams: LossParams[]) => void
+  setLatestParams: (params: LatestParams) => void
+  formValues: FormValues
+  setFormValues: (formValues: FormValues) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const Train = ({
@@ -36,14 +41,12 @@ const Train = ({
   setLineParams,
   lossParams,
   setLossParams,
+  setLatestParams,
+  formValues,
+  setFormValues,
+  onChange,
 }: Props) => {
   const api = Api.getInstance()
-  const [formValues, setFormValues] = useState<FormValues>({
-    max_iter: "",
-    optimizer: "",
-    criterion: "",
-    learning_rate: "",
-  })
   const [loading, setLoading] = useState(false)
 
   const dimension = Object.keys(trainData[0]).length - 1
@@ -59,20 +62,15 @@ const Train = ({
         trainData,
         dataset
       )
-      setLineParams && setLineParams(result.line_params)
-      setLossParams && setLossParams(result.loss_params)
+
+      setLineParams && setLineParams(result.result.line_params)
+      setLossParams && setLossParams(result.result.loss_params)
+      setLatestParams(result.latest_params)
     } catch (e: any) {
       console.error(String(e))
     } finally {
       setLoading(false)
     }
-  }
-
-  const onChange = (e: any) => {
-    setFormValues((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
   }
 
   const handleReturnToForm = () => {
@@ -84,6 +82,7 @@ const Train = ({
     })
     setLineParams && setLineParams([])
     setLossParams && setLossParams([])
+    setLatestParams({ w: [], b: 0 })
   }
 
   const onCancel = () => {

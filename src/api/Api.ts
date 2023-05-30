@@ -1,4 +1,4 @@
-import { DataPoint, DatasetObject, LineParams } from "../types"
+import { DataPoint, DatasetObject, LatestParams } from "../types"
 import { FetchProxy } from "./FetchProxy"
 
 export class Api {
@@ -58,21 +58,22 @@ export class Api {
       criterion,
     })
 
-
     return result
   }
 
   async testGeneratedDataClassification(
-    testData: DataPoint[],
-    trainData: DataPoint[],
-    lineParams: LineParams[]
+    testData: DataPoint[] | DatasetObject[],
+    trainData: DataPoint[] | DatasetObject[],
+    latestParams: LatestParams,
+    dataset?: string
   ) {
     const result = await this.fetchProxy.post(
       "/classification/generated/test",
       {
         test_data: testData,
         train_data: trainData,
-        line_params: lineParams,
+        latest_params: latestParams,
+        dataset: dataset,
       }
     )
 
@@ -80,14 +81,14 @@ export class Api {
   }
 
   async predictGeneratedDataClassification(
-    lineParams: LineParams[],
+    latestParams: LatestParams,
     x1: number,
     x2: number
   ) {
     const result = await this.fetchProxy.post(
       "/classification/generated/predict",
       {
-        line_params: lineParams,
+        latest_params: latestParams,
         x1: x1,
         x2: x2,
       }
@@ -129,10 +130,11 @@ export class Api {
     return result
   }
 
-  async getClassificationDatasetSets(dataset: string, trainSize: string) {
+  async getClassificationDatasetSets(dataset: string, train_size: string) {
+    console.log("here")
     const result = await this.fetchProxy.post("/classification/dataset/sets", {
       dataset,
-      train_size: trainSize,
+      train_size,
     })
 
     return result

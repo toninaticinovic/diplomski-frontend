@@ -16,9 +16,9 @@ const LossChart = ({ lossParams, formValues }: Props) => {
         sx={{ color: "primary.dark" }}
         component="h3"
       >
-        GRAF FUNKCIJE GUBITKA
+        GRAF FUNKCIJE GUBITKA NA SKUPU ZA TRENIRANJE
       </Box>
-      <VictoryChart>
+      <VictoryChart width={600} height={400}>
         <VictoryAxis
           label="Epoha"
           style={{
@@ -27,10 +27,9 @@ const LossChart = ({ lossParams, formValues }: Props) => {
         />
         <VictoryAxis
           dependentAxis
-          label="Funckija gubitka"
           style={{
-            axisLabel: { padding: 34 },
-            tickLabels: { angle: -45, padding: 5 },
+            axisLabel: { padding: 40 },
+            tickLabels: { angle: -70, padding: 5 },
           }}
         />
 

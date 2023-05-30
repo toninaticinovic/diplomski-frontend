@@ -1,4 +1,10 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material"
 import { StatisticalAnalysisResult } from "../types"
 
 interface Props {
@@ -40,11 +46,11 @@ const StatisticalAnalysisTable = ({ dataStats }: Props) => {
             <TableCell sx={{ color: "primary.light" }}>
               {column.column}
             </TableCell>
-            <TableCell>{column.max}</TableCell>
-            <TableCell>{column.min}</TableCell>
-            <TableCell>{column.mean}</TableCell>
-            <TableCell>{column.median}</TableCell>
-            <TableCell>{column.std}</TableCell>
+            <TableCell>{column.max.toFixed(2)}</TableCell>
+            <TableCell>{column.min.toFixed(2)}</TableCell>
+            <TableCell>{column.mean.toFixed(2)}</TableCell>
+            <TableCell>{column.median.toFixed(2)}</TableCell>
+            <TableCell>{column.std.toFixed(2)}</TableCell>
             <TableCell>{column.null}</TableCell>
             <TableCell>{column.unique}</TableCell>
             <TableCell>

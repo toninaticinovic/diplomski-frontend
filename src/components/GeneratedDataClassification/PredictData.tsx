@@ -1,16 +1,16 @@
 import { useState } from "react"
-import { DataPoint, LineParams } from "../../types"
+import { DataPoint, LatestParams } from "../../types"
 import PredictDataForm from "./PredictDataForm"
 import { Api } from "../../api"
 import DataChart from "./DataChart"
 import { Box, Button, CircularProgress } from "@mui/material"
 
 interface Props {
-  lineParams: LineParams[]
+  latestParams: LatestParams
   data: DataPoint[]
 }
 
-const PredictData = ({ lineParams, data }: Props) => {
+const PredictData = ({ latestParams, data }: Props) => {
   const api = Api.getInstance()
 
   const [formValues, setFormValues] = useState({ x1: "", x2: "" })
@@ -28,7 +28,7 @@ const PredictData = ({ lineParams, data }: Props) => {
     setLoading(true)
     try {
       const result = await api.predictGeneratedDataClassification(
-        lineParams,
+        latestParams,
         parseFloat(formValues.x1),
         parseFloat(formValues.x2)
       )
@@ -67,13 +67,13 @@ const PredictData = ({ lineParams, data }: Props) => {
 
       {result !== "" && (
         <>
-          <DataChart data={data} point={point} lineParams={lineParams} />
+          <DataChart data={data} point={point} latestParams={latestParams} />
           <Box sx={{ textAlign: "center" }}>
             Podatak ({formValues.x1}, {formValues.x2}) je klasificiran u klasu{" "}
             <b>{Number(result) - 1} </b>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button onClick={handleReset}> Ponovno</Button>
+            <Button onClick={handleReset}>Ponovno</Button>
           </Box>
         </>
       )}

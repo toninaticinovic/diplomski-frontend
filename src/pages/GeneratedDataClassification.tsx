@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material"
 import { useState } from "react"
 import { Api } from "../api"
-import { DataPoint, LineParams } from "../types"
+import { DataPoint, LineParams, LatestParams, FormValues } from "../types"
 import DataChart from "../components/GeneratedDataClassification/DataChart"
 import DataForm from "../components/GeneratedDataClassification/DataForm"
 import Train from "../components/Train"
@@ -17,6 +17,7 @@ const GeneratedDataClassification = () => {
   const [trainData, setTrainData] = useState<DataPoint[]>([])
   const [testData, setTestData] = useState<DataPoint[]>([])
   const [lineParams, setLineParams] = useState<LineParams[]>([])
+  const [latestParams, setLatestParams] = useState<LatestParams>()
 
   const [openTrain, setOpenTrain] = useState(false)
   const [openTest, setOpenTest] = useState(false)
@@ -28,6 +29,13 @@ const GeneratedDataClassification = () => {
   const [formValues, setFormValues] = useState({
     n_samples: "",
     train_size: "",
+  })
+
+  const [formValuesTrain, setFormValuesTrain] = useState<FormValues>({
+    max_iter: "",
+    optimizer: "",
+    criterion: "",
+    learning_rate: "",
   })
 
   const [separable, setSeparable] = useState<undefined | boolean>(undefined)
@@ -59,6 +67,13 @@ const GeneratedDataClassification = () => {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const onChangeTrain = (e: any) => {
+    setFormValuesTrain((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }))
@@ -159,6 +174,10 @@ const GeneratedDataClassification = () => {
               setOpenTest={setOpenTest}
               lineParams={lineParams}
               setLineParams={setLineParams}
+              setLatestParams={setLatestParams}
+              onChange={onChangeTrain}
+              formValues={formValuesTrain}
+              setFormValues={setFormValuesTrain}
             />
           )}
 
@@ -167,9 +186,9 @@ const GeneratedDataClassification = () => {
               data={data}
               testData={testData}
               trainData={trainData}
-              lineParams={lineParams}
               setOpenTrain={setOpenTrain}
               setOpenTest={setOpenTest}
+              latestParams={latestParams ?? { w: [], b: 0 }}
             />
           )}
         </>
