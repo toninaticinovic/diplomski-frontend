@@ -1,11 +1,6 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material"
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import { StatisticalAnalysisResult } from "../types"
+import convertToNormalCase from "../utils/convert-to-normal-word"
 
 interface Props {
   dataStats: StatisticalAnalysisResult[]
@@ -44,7 +39,7 @@ const StatisticalAnalysisTable = ({ dataStats }: Props) => {
         {dataStats.map((column) => (
           <TableRow key={column.column} className="statistical-table-values">
             <TableCell sx={{ color: "primary.light" }}>
-              {column.column}
+              {convertToNormalCase(column.column)}
             </TableCell>
             <TableCell>{column.max.toFixed(2)}</TableCell>
             <TableCell>{column.min.toFixed(2)}</TableCell>

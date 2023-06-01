@@ -4,6 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 import ApexCharts from "apexcharts"
 import { BoxPlotResult } from "../types"
 import { Box } from "@mui/material"
+import convertToNormalCase from "../utils/convert-to-normal-word"
 
 interface Props {
   boxPlotData: BoxPlotResult[]
@@ -29,7 +30,7 @@ const getChartOptions = (boxPlotData: BoxPlotResult) => {
       height: 500,
     },
     title: {
-      text: `Box Plot Diagram - ${boxPlotData.x}`,
+      text: `Box Plot Diagram - ${convertToNormalCase(boxPlotData.x)}`,
       align: "left",
     },
     plotOptions: {

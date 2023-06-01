@@ -10,7 +10,7 @@ interface Props {
   data: DataPoint[]
 }
 
-const PredictData = ({ latestParams, data }: Props) => {
+const PredictDataGenerated = ({ latestParams, data }: Props) => {
   const api = Api.getInstance()
 
   const [formValues, setFormValues] = useState({ x1: "", x2: "" })
@@ -81,4 +81,4 @@ const PredictData = ({ latestParams, data }: Props) => {
   )
 }
 
-export default PredictData
+export default PredictDataGenerated

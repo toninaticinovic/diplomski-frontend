@@ -28,7 +28,7 @@ import BoxPlotCarousel from "../components/BoxPlotCarousel"
 import HistogramCarousel from "../components/HistogramCarousel"
 import TrainSetForm from "../components/DatasetClassification/TrainSetForm"
 import Train from "../components/Train"
-import Test from "../components/GeneratedDataClassification/Test"
+import Test from "../components/Test"
 
 const DatasetClassification = () => {
   const api = Api.getInstance()
@@ -166,15 +166,21 @@ const DatasetClassification = () => {
 
   if (openTest) {
     return (
-      <Test
-        data={[]}
-        trainData={trainSet}
-        testData={testSet}
-        setOpenTrain={setOpenTrain}
-        setOpenTest={setOpenTest}
-        latestParams={latestParams ?? { w: [], b: 0 }}
-        dataset={datasetName}
-      />
+      <>
+        <SubHeader
+          showButton={true}
+          text={`BINARNA KLASIFIKACIJA - ${label}`}
+        />
+        <Test
+          data={[]}
+          trainData={trainSet}
+          testData={testSet}
+          setOpenTrain={setOpenTrain}
+          setOpenTest={setOpenTest}
+          latestParams={latestParams ?? { w: [], b: 0 }}
+          dataset={datasetName}
+        />
+      </>
     )
   }
 

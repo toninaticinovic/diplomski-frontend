@@ -4,6 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 import ApexCharts from "apexcharts"
 import { HistogramResult } from "../types"
 import { Box } from "@mui/material"
+import convertToNormalCase from "../utils/convert-to-normal-word"
 
 interface Props {
   histogramData: HistogramResult[]
@@ -30,7 +31,7 @@ const getChartOptions = (histogramData: HistogramResult) => {
       categories: histogramData.x,
     },
     title: {
-      text: `Histogram - ${histogramData.column}`,
+      text: `Histogram - ${convertToNormalCase(histogramData.column)}`,
     },
   }
 

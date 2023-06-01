@@ -131,11 +131,36 @@ export class Api {
   }
 
   async getClassificationDatasetSets(dataset: string, train_size: string) {
-    console.log("here")
     const result = await this.fetchProxy.post("/classification/dataset/sets", {
       dataset,
       train_size,
     })
+
+    return result
+  }
+
+  async getPredictDatasetClassificationFields(dataset: string) {
+    const result = await this.fetchProxy.post(
+      "/classification/dataset/predict-fields",
+      { dataset }
+    )
+
+    return result
+  }
+
+  async predictDatasetDataClassification(
+    latestParams: LatestParams,
+    dataset: string,
+    input: string[]
+  ) {
+    const result = await this.fetchProxy.post(
+      "/classification/dataset/predict",
+      {
+        latest_params: latestParams,
+        dataset: dataset,
+        input: input,
+      }
+    )
 
     return result
   }

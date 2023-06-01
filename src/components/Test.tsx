@@ -14,10 +14,11 @@ import {
 } from "@mui/material"
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import { useEffect, useState } from "react"
-import { Api } from "../../api"
-import { DataPoint, DatasetObject, LatestParams, TestResult } from "../../types"
-import ConfusionMatrix from "../ConfusionMatrix"
-import PredictData from "./PredictData"
+import { Api } from "../api"
+import { DataPoint, DatasetObject, LatestParams, TestResult } from "../types"
+import ConfusionMatrix from "./ConfusionMatrix"
+import PredictDataGenerated from "./GeneratedDataClassification/PredictData"
+import PredictDataDataset from "./DatasetClassification/PredictData"
 
 interface Props {
   data: DataPoint[] | DatasetObject[]
@@ -69,14 +70,6 @@ const Test = ({
   const handleReturn = () => {
     setOpenTest(false)
     setOpenTrain(true)
-  }
-
-  const handleOpenPredictGeneratedData = () => {
-    setOpenDialog(true)
-  }
-
-  const handleOpenPredictDatasetData = () => {
-    // forma s fieldovima koji dolaze s backenda - nekako
   }
 
   return (
@@ -173,25 +166,25 @@ const Test = ({
               }}
             >
               <Button onClick={handleReturn}> Vrati se na treniranje </Button>
-              <Button
-                onClick={
-                  dataset
-                    ? handleOpenPredictDatasetData
-                    : handleOpenPredictGeneratedData
-                }
-                variant="outlined"
-              >
+              <Button onClick={() => setOpenDialog(true)} variant="outlined">
                 Unesi podatak za predikciju izlaza
               </Button>
             </Box>
           </Box>
 
           <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-            <DialogContent>
-              <PredictData
-                data={data as DataPoint[]}
-                latestParams={latestParams}
-              />
+            <DialogContent sx={{ pb: 0 }}>
+              {dataset ? (
+                <PredictDataDataset
+                  dataset={dataset}
+                  latestParams={latestParams}
+                />
+              ) : (
+                <PredictDataGenerated
+                  data={data as DataPoint[]}
+                  latestParams={latestParams}
+                />
+              )}
             </DialogContent>
             <DialogActions
               sx={{ display: "flex", justifyContent: "flex-start" }}

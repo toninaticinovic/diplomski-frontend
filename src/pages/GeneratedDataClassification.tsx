@@ -8,7 +8,7 @@ import Train from "../components/Train"
 import SubHeader from "../components/SubHeader"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import Test from "../components/GeneratedDataClassification/Test"
+import Test from "../components/Test"
 
 const GeneratedDataClassification = () => {
   const api = Api.getInstance()

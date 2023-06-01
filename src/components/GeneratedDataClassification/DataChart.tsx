@@ -27,8 +27,6 @@ const DataChart = ({
 }: Props) => {
   const expandedData = [...data, point]
 
-  console.log(point)
-
   let lineData
 
   if (latestParams !== undefined) {

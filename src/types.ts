@@ -56,3 +56,9 @@ export type BoxPlotResult = {
 export type DatasetObject = {
   [key: string]: number | undefined
 }
+
+export type Field = {
+  name: string
+  type: string
+  options?: string[]
+}
