@@ -1,14 +1,14 @@
 import { Box, Button } from "@mui/material"
 import { useState } from "react"
 import { Api } from "../api"
-import { DataPoint, LineParams, LatestParams, FormValues } from "../types"
+import { DataPoint, LineParams, LatestParams, FormValuesClassification } from "../types"
 import DataChart from "../components/GeneratedDataClassification/DataChart"
 import DataForm from "../components/GeneratedDataClassification/DataForm"
-import Train from "../components/Train"
+import Train from "../components/Classification/Train"
 import SubHeader from "../components/SubHeader"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import Test from "../components/Test"
+import Test from "../components/Classification/Test"
 
 const GeneratedDataClassification = () => {
   const api = Api.getInstance()
@@ -31,7 +31,7 @@ const GeneratedDataClassification = () => {
     train_size: "",
   })
 
-  const [formValuesTrain, setFormValuesTrain] = useState<FormValues>({
+  const [formValuesTrain, setFormValuesTrain] = useState<FormValuesClassification>({
     max_iter: "",
     optimizer: "",
     criterion: "",
@@ -89,7 +89,11 @@ const GeneratedDataClassification = () => {
     <>
       {separable === undefined && (
         <>
-          <SubHeader showButton={true} text={"BINARNA KLASIFIKACIJA"} />
+          <SubHeader
+            showButtonClassification={true}
+            showButtonRegression={false}
+            text={"BINARNA KLASIFIKACIJA"}
+          />
           <Box
             sx={{ display: "flex", justifyContent: "center", mt: 5, gap: 3 }}
           >
@@ -117,7 +121,8 @@ const GeneratedDataClassification = () => {
             text={`BINARNA KLASIFIKACIJA - Linearno ${
               separable ? "odvojivi" : "neodvojivi"
             } podaci`}
-            showButton={true}
+            showButtonClassification={true}
+            showButtonRegression={false}
           />
           {data.length === 0 && (
             <>

@@ -12,16 +12,19 @@ import {
   DialogContent,
   Tooltip,
 } from "@mui/material"
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import { useEffect, useState } from "react"
-import { Api } from "../api"
-import { DataPoint, DatasetObject, LatestParams, TestResult } from "../types"
-import ConfusionMatrix from "./ConfusionMatrix"
-import PredictDataGenerated from "./GeneratedDataClassification/PredictData"
-import PredictDataDataset from "./DatasetClassification/PredictData"
+import { Api } from "../../api"
+import {
+  DataPoint,
+  DatasetObject,
+  LatestParams,
+  TestResultRegression,
+} from "../../types"
+import ConfusionMatrix from "../ConfusionMatrix"
+import PredictDataGenerated from "../GeneratedDataClassification/PredictData"
+import PredictDataDataset from "../DatasetClassification/PredictData"
 
 interface Props {
-  data: DataPoint[] | DatasetObject[]
   testData: DataPoint[] | DatasetObject[]
   trainData: DataPoint[] | DatasetObject[]
   setOpenTrain: (open: boolean) => void
@@ -33,7 +36,6 @@ interface Props {
 const Test = ({
   testData,
   trainData,
-  data,
   setOpenTest,
   setOpenTrain,
   latestParams,
@@ -42,15 +44,15 @@ const Test = ({
   const api = Api.getInstance()
 
   const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState<TestResult>()
+  const [result, setResult] = useState<TestResultRegression>()
   const [openDialog, setOpenDialog] = useState(false)
 
   async function modelTest() {
     setLoading(true)
     try {
-      const result = await api.testGeneratedDataClassification(
-        testData as DataPoint[],
-        trainData as DataPoint[],
+      const result = await api.testDataRegression(
+        testData,
+        trainData,
         latestParams,
         dataset
       )
@@ -96,39 +98,11 @@ const Test = ({
                   <Box sx={{ color: "primary.main" }}>Skup podataka</Box>
                 </TableCell>
                 <TableCell>
-                  <Box sx={{ color: "primary.main" }}>Mjera točnosti</Box>
-                  <Box sx={{ color: "primary.main" }}>
-                    (eng. accuracy score)
-                  </Box>
+                  <Box sx={{ color: "primary.main" }}>R2 mjera</Box>
                 </TableCell>
                 <TableCell>
-                  <Box sx={{ color: "primary.main" }}>F1 mjera</Box>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      color: "primary.main",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                    }}
-                  >
-                    Matrica zabune
-                    <Tooltip
-                      title={
-                        <span
-                          style={{ whiteSpace: "pre-line", fontSize: "14px" }}
-                        >
-                          [TN, FP]{"\n"}[FN, TP]
-                        </span>
-                      }
-                      arrow
-                    >
-                      <InfoOutlinedIcon />
-                    </Tooltip>
-                  </Box>
                   <Box sx={{ color: "primary.main" }}>
-                    (eng. confusion matrix)
+                    Srednja kvadratna pogreška (MSE)
                   </Box>
                 </TableCell>
               </TableRow>
@@ -136,23 +110,13 @@ const Test = ({
             <TableBody>
               <TableRow>
                 <TableCell>Skup podataka za treniranje</TableCell>
-                <TableCell>{result?.accuracy_train?.toFixed(2)}%</TableCell>
-                <TableCell>{result?.f1_score_train?.toFixed(2)}%</TableCell>
-                <TableCell>
-                  <ConfusionMatrix
-                    matrix={result?.confusion_matrix_train ?? []}
-                  />
-                </TableCell>
+                <TableCell>{result?.r2_score_train?.toFixed(2)}</TableCell>
+                <TableCell>{result?.mse_train?.toFixed(2)}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Skup podataka za testiranje</TableCell>
-                <TableCell>{result?.accuracy_test?.toFixed(2)}%</TableCell>
-                <TableCell>{result?.f1_score_test?.toFixed(2)}%</TableCell>
-                <TableCell>
-                  <ConfusionMatrix
-                    matrix={result?.confusion_matrix_test ?? []}
-                  />
-                </TableCell>
+                <TableCell>{result?.r2_score_test?.toFixed(2)}</TableCell>
+                <TableCell>{result?.mse_test?.toFixed(2)}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -166,13 +130,13 @@ const Test = ({
               }}
             >
               <Button onClick={handleReturn}> Vrati se na treniranje </Button>
-              <Button onClick={() => setOpenDialog(true)} variant="outlined">
+              {/* <Button onClick={() => setOpenDialog(true)} variant="outlined">
                 Unesi podatak za predikciju izlaza
-              </Button>
+              </Button> */}
             </Box>
           </Box>
 
-          <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+          {/* <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
             <DialogContent sx={{ pb: 0 }}>
               {dataset ? (
                 <PredictDataDataset
@@ -191,7 +155,7 @@ const Test = ({
             >
               <Button onClick={() => setOpenDialog(false)}>Zatvori</Button>
             </DialogActions>
-          </Dialog>
+          </Dialog> */}
         </>
       )}
     </Box>

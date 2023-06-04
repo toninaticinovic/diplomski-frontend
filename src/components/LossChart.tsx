@@ -1,14 +1,24 @@
 import { VictoryChart, VictoryLine, VictoryAxis } from "victory"
-import { FormValues, LossParams } from "../../types"
+import {
+  FormValuesClassification,
+  FormValuesRegression,
+  LossParams,
+} from "../types"
 import { Box } from "@mui/material"
-import { criterions, optimizers } from "../../constants"
+import {
+  criterionsClassification,
+  criterionsRegression,
+  optimizers,
+} from "../constants"
 
 interface Props {
   lossParams: LossParams[]
-  formValues: FormValues
+  formValues: FormValuesClassification | FormValuesRegression
 }
 
 const LossChart = ({ lossParams, formValues }: Props) => {
+  const criterions = [...criterionsClassification, ...criterionsRegression]
+
   return (
     <Box className="loss-chart-container" sx={{ borderColor: "primary.dark" }}>
       <Box

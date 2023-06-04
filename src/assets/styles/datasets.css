@@ -1,0 +1,54 @@
+.datasets-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  row-gap: 4rem;
+  margin-top: 2rem;
+}
+
+.datasets-card {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.datasets-card:hover {
+  cursor: pointer;
+  background-color: #f0f8ff;
+}
+
+.statistical-table {
+  margin: auto;
+  border: 1px solid;
+  margin-top: 1rem;
+}
+
+.statistical-table-labels th {
+  font-weight: 700;
+  text-align: center;
+}
+
+.statistical-table-values td {
+  text-align: center;
+}
+
+.box-plot-container {
+  margin: auto;
+  width: 80%;
+  margin-top: 5rem;
+}
+
+.control-dots {
+  margin-bottom: 0;
+}
+
+.carousel-slider {
+  height: 100%;
+}
+
+.carousel-root .control-dots {
+  margin-bottom: 0;
+}

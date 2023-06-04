@@ -10,7 +10,7 @@ type Dataset = {
   description: string
 }
 
-const DatasetListClassification = () => {
+const RegressionList = () => {
   const api = Api.getInstance()
   const [result, setResult] = useState<Dataset[]>([])
   const navigate = useNavigate()
@@ -18,7 +18,7 @@ const DatasetListClassification = () => {
   async function getDatasets() {
     //   setLoading(false)
     try {
-      const result = await api.getClassificationDatasets()
+      const result = await api.getRegressionDatasets()
       setResult(result)
     } catch (e: any) {
       console.error(String(e))
@@ -35,9 +35,9 @@ const DatasetListClassification = () => {
   return (
     <>
       <SubHeader
-        showButtonClassification={true}
+        showButtonClassification={false}
         showButtonRegression={false}
-        text={"BINARNA KLASIFIKACIJA - Skupovi podataka"}
+        text={"LINEARNA REGRESIJA - Skupovi podataka"}
       />
 
       <Box className="datasets-container">
@@ -46,7 +46,7 @@ const DatasetListClassification = () => {
             key={dataset.value}
             className="datasets-card"
             sx={{ borderColor: "primary.dark" }}
-            onClick={() => navigate(`/classification/dataset/${dataset.value}`)}
+            onClick={() => navigate(`/regression/dataset/${dataset.value}`)}
           >
             <Box className="label" sx={{ color: "primary.main" }}>
               {dataset.label}
@@ -59,4 +59,4 @@ const DatasetListClassification = () => {
   )
 }
 
-export default DatasetListClassification
+export default RegressionList

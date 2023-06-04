@@ -7,7 +7,11 @@ const Classification = () => {
 
   return (
     <>
-      <SubHeader showButton={false} text="KLASIFIKACIJA" />
+      <SubHeader
+        showButtonClassification={false}
+        showButtonRegression={false}
+        text="KLASIFIKACIJA"
+      />
       <Box className="classification-buttons">
         <Button
           onClick={() => navigate("/classification/generate")}

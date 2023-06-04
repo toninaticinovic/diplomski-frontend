@@ -1,19 +1,19 @@
 import { useState } from "react"
-import { Api } from "../api"
+import { Api } from "../../api"
 import {
   DataPoint,
   DatasetObject,
-  FormValues,
+  FormValuesClassification,
   LineParams,
   LossParams,
   LatestParams,
-} from "../types"
+} from "../../types"
 import TrainFrom from "./TrainFrom"
-import AnimationChart from "./GeneratedDataClassification/AnimationChart"
+import AnimationChart from "../GeneratedDataClassification/AnimationChart"
 import { Box, Button } from "@mui/material"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import LossChart from "./DatasetClassification/LossChart"
+import LossChart from "../LossChart"
 
 type Props = {
   trainData: DataPoint[] | DatasetObject[]
@@ -26,8 +26,8 @@ type Props = {
   lossParams?: LossParams[]
   setLossParams?: (lossParams: LossParams[]) => void
   setLatestParams: (params: LatestParams) => void
-  formValues: FormValues
-  setFormValues: (formValues: FormValues) => void
+  formValues: FormValuesClassification
+  setFormValues: (formValues: FormValuesClassification) => void
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 

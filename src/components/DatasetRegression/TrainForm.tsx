@@ -10,7 +10,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material"
-import { criterions, optimizers } from "../constants"
+import { criterionsRegression, optimizers } from "../../constants"
 
 type Props = {
   onChange: (e: any) => void
@@ -43,7 +43,7 @@ const TrainFrom = ({
           {dimension > 2 && (
             <Alert severity="info" sx={{ mb: 2 }}>
               {`Ulazni podaci su ${dimension}-d dimenzije, stoga će umjesto animacije treniranja
-              biti prikazan graf funkcije gubitka kroz iteracije na skupu za treniranje!`}
+                biti prikazan graf funkcije gubitka kroz iteracije na skupu za treniranje!`}
             </Alert>
           )}
           <Alert severity="info" sx={{ mb: 2 }}>
@@ -67,7 +67,7 @@ const TrainFrom = ({
                 onChange={onChange}
                 required
               >
-                {criterions.map((option) => (
+                {criterionsRegression.map((option) => (
                   <MenuItem value={option.value} key={option.value}>
                     {option.label}
                   </MenuItem>

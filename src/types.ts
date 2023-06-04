@@ -4,10 +4,17 @@ export type DataPoint = {
   color: number
 }
 
-export type FormValues = {
+export type FormValuesClassification = {
   max_iter: string
   optimizer: "" | "Adam" | "SGD"
   criterion: "" | "BSELoss" | "HingeEmbeddingLoss"
+  learning_rate: string
+}
+
+export type FormValuesRegression = {
+  max_iter: string
+  optimizer: "" | "Adam" | "SGD"
+  criterion: "" | "MSELoss" | "L1Loss" | "SmoothL1Loss"
   learning_rate: string
 }
 
@@ -15,7 +22,7 @@ export type LineParams = { w1: number; w2: number; b: number }
 export type LossParams = { loss: number; epoch: number }
 export type LatestParams = { w: number[][]; b: number }
 
-export type TestResult = {
+export type TestResultClassification = {
   confusion_matrix_test: number[][]
   confusion_matrix_train: number[][]
   accuracy_test: number
@@ -24,16 +31,29 @@ export type TestResult = {
   f1_score_train: number
 }
 
-export type StatisticalAnalysisResult = {
+export type TestResultRegression = {
+  accuracy_test: number
+  accuracy_train: number
+  r2_score_test: number
+  r2_score_train: number
+  mse_test: number
+  mse_train: number
+}
+
+export type DataStats = {
+  column: string
+  null: number
+  unique: number
+  is_numerical: boolean
+}
+
+export type NumDataStats = {
   column: string
   max: number
   min: number
-  null: number
-  std: number
-  unique: number
-  is_numerical: boolean
   mean: number
   median: number
+  std: number
 }
 
 export type DataSize = {
@@ -51,6 +71,12 @@ export type BoxPlotResult = {
   x: string
   y: number[]
   outliers: number[]
+}
+
+export type CountPlotResult = {
+  column: string
+  x: string[]
+  y: number[]
 }
 
 export type DatasetObject = {

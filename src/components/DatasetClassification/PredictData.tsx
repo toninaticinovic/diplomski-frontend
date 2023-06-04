@@ -43,8 +43,6 @@ const PredictDataDataset = ({ dataset, latestParams }: Props) => {
 
   const handleSubmit = async () => {
     const formValuesArray: string[] = Object.values(formValues)
-    console.log(formValuesArray)
-
     setLoading(true)
     try {
       const result = await api.predictDatasetDataClassification(
@@ -52,7 +50,6 @@ const PredictDataDataset = ({ dataset, latestParams }: Props) => {
         dataset,
         formValuesArray
       )
-      console.log(result)
       setResult(result)
     } catch (e: any) {
       console.error(String(e))
@@ -107,9 +104,7 @@ const PredictDataDataset = ({ dataset, latestParams }: Props) => {
               Značenje klase: <b>{result.description}</b>
             </Box>
           </Box>
-          <Box
-            sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}
-          >
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleReset}>Ponovno</Button>
           </Box>
         </>

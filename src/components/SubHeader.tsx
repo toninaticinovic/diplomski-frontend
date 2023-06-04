@@ -12,35 +12,61 @@ import { useNavigate } from "react-router-dom"
 
 interface Props {
   text: string
-  showButton: boolean
+  showButtonClassification: boolean
+  showButtonRegression: boolean
 }
 
-const SubHeader = ({ text, showButton }: Props) => {
+const SubHeader = ({
+  text,
+  showButtonClassification,
+  showButtonRegression,
+}: Props) => {
   const navigate = useNavigate()
-  const [openWarning, setOpenWarning] = useState(false)
+  const [openWarningClassification, setOpenWarningClassification] =
+    useState(false)
+  const [openWarningRegression, setOpenWarningRegression] = useState(false)
 
-  const handleClose = () => {
-    setOpenWarning(false)
+  const handleCloseClassification = () => {
+    setOpenWarningClassification(false)
     navigate("/classification")
+  }
+
+  const handleCloseRegression = () => {
+    setOpenWarningRegression(false)
+    navigate("/regression/dataset")
   }
 
   return (
     <>
       <Box className="sub-header" sx={{ color: "warning.dark" }}>
         {text}
-        {showButton && (
+        {showButtonClassification && (
           <Button
             color="warning"
             variant="outlined"
             sx={{ margin: "auto", mt: "1rem" }}
-            onClick={() => setOpenWarning(true)}
+            onClick={() => setOpenWarningClassification(true)}
           >
             Vrati se na stranicu klasifikacije
           </Button>
         )}
+
+        {showButtonRegression && (
+          <Button
+            color="warning"
+            variant="outlined"
+            sx={{ margin: "auto", mt: "1rem" }}
+            onClick={() => setOpenWarningRegression(true)}
+          >
+            Vrati se na stranicu regresije
+          </Button>
+        )}
       </Box>
 
-      <Dialog open={openWarning} onClose={() => setOpenWarning(false)}>
+      <Dialog
+        open={openWarningClassification}
+        onClose={() => setOpenWarningClassification(false)}
+      >
         <DialogTitle>Povratak na stranicu klasifikcije</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -49,8 +75,31 @@ const SubHeader = ({ text, showButton }: Props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenWarning(false)}>Odustani</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={() => setOpenWarningClassification(false)}>
+            Odustani
+          </Button>
+          <Button onClick={handleCloseClassification} autoFocus>
+            Slažem se
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openWarningRegression}
+        onClose={() => setOpenWarningRegression(false)}
+      >
+        <DialogTitle>Povratak na stranicu regresije</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Klikom na 'Slažem se' vraćate se na stranicu regresije i svi
+            dosadašnji podaci bit će izgubljeni. Jeste li sigurni?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenWarningRegression(false)}>
+            Odustani
+          </Button>
+          <Button onClick={handleCloseRegression} autoFocus>
             Slažem se
           </Button>
         </DialogActions>

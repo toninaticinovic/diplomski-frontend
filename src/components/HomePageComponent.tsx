@@ -13,6 +13,9 @@ const HomePageComponent = () => {
           borderColor: "primary.dark",
           color: "primary.dark",
         }}
+        onClick={() => {
+          navigate("/regression/dataset")
+        }}
       >
         <img src="images/regression.png" alt="regression" />
         <p>

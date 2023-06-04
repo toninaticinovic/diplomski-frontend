@@ -2,9 +2,9 @@ import React, { useRef } from "react"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import ApexCharts from "apexcharts"
-import { BoxPlotResult } from "../types"
+import { BoxPlotResult } from "../../types"
 import { Box } from "@mui/material"
-import convertToNormalCase from "../utils/convert-to-normal-word"
+import convertToNormalCase from "../../utils/convert-to-normal-word"
 
 interface Props {
   boxPlotData: BoxPlotResult[]

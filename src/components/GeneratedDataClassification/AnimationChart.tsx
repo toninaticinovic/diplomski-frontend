@@ -1,15 +1,15 @@
 import { Box, IconButton } from "@mui/material"
 import { VictoryChart, VictoryLine, VictoryScatter } from "victory"
-import { DataPoint, LineParams, FormValues } from "../../types"
+import { DataPoint, LineParams, FormValuesClassification } from "../../types"
 import { useEffect, useState } from "react"
 import RefreshIcon from "@mui/icons-material/Refresh"
 import FastForwardIcon from "@mui/icons-material/FastForward"
-import { criterions, optimizers, colors } from "../../constants"
+import { criterionsClassification, optimizers, colors } from "../../constants"
 
 type Props = {
   lineParams: LineParams[]
   trainData: DataPoint[]
-  formValues: FormValues
+  formValues: FormValuesClassification
 }
 
 const AnimationChart = ({ lineParams, trainData, formValues }: Props) => {
@@ -103,7 +103,7 @@ const AnimationChart = ({ lineParams, trainData, formValues }: Props) => {
           {" "}
           Funkcija gubitka:{" "}
           {
-            criterions.find(
+            criterionsClassification.find(
               (criterion) => criterion.value === formValues.criterion
             )?.label
           }

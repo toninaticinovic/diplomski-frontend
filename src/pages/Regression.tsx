@@ -1,36 +1,36 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import {
-  DatasetObject,
-  LossParams,
-  LatestParams,
   DataSize,
-  FormValuesClassification,
   DataStats,
+  DatasetObject,
+  FormValuesRegression,
+  LatestParams,
+  LossParams,
   NumDataStats,
 } from "../types"
-import StatisticalAnalysisTable from "../components/StatisticalAnalysisTable"
 import { Api } from "../api"
-import SubHeader from "../components/SubHeader"
 import {
   Box,
   Button,
   CircularProgress,
   Dialog,
-  DialogContent,
   DialogActions,
+  DialogContent,
   DialogContentText,
 } from "@mui/material"
+import StatisticalAnalysisTable from "../components/StatisticalAnalysisTable"
+import SubHeader from "../components/SubHeader"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import TrainSetForm from "../components/DatasetClassification/TrainSetForm"
-import Train from "../components/Classification/Train"
-import Test from "../components/Classification/Test"
 import BoxPlotContainer from "../containers/BoxPlotContainer"
 import HistogramContainer from "../containers/HistogramContainer"
 import CountPlotContainer from "../containers/CountPlotContainer"
+import TrainSetForm from "../components/DatasetRegression/TrainSetForm"
+import Train from "../components/DatasetRegression/Train"
+import Test from "../components/DatasetRegression/Test"
 
-const DatasetClassification = () => {
+const Regression = () => {
   const api = Api.getInstance()
   const { datasetName } = useParams()
   const navigate = useNavigate()
@@ -39,21 +39,25 @@ const DatasetClassification = () => {
   const [label, setLabel] = useState("")
   const [dataStats, setDataStats] = useState<DataStats[]>([])
   const [numDataStats, setNumDataStats] = useState<NumDataStats[]>([])
+
   const [dataSize, setDataSize] = useState<DataSize | undefined>(undefined)
 
-  const [openTrain, setOpenTrain] = useState(false)
-  const [trainSize, setTrainSize] = useState("")
-  const [openForm, setOpenForm] = useState(false)
   const [loadingForm, setLoadingForm] = useState(false)
-  const [trainSet, setTrainSet] = useState<DatasetObject[]>([])
+  const [openForm, setOpenForm] = useState(false)
+  const [formValuesTrainSize, setFormValuesTrainSize] = useState({
+    train_size: "",
+    checkbox: false,
+  })
 
+  const [trainSet, setTrainSet] = useState<DatasetObject[]>([])
+  const [openTrain, setOpenTrain] = useState(false)
   const [testSet, setTestSet] = useState<DatasetObject[]>([])
   const [openTest, setOpenTest] = useState(false)
 
   const [lossParams, setLossParams] = useState<LossParams[]>([])
   const [latestParams, setLatestParams] = useState<LatestParams>()
 
-  const [formValues, setFormValues] = useState<FormValuesClassification>({
+  const [formValues, setFormValues] = useState<FormValuesRegression>({
     max_iter: "",
     optimizer: "",
     criterion: "",
@@ -66,7 +70,7 @@ const DatasetClassification = () => {
   async function staticAnalysis() {
     setLoading(true)
     try {
-      const result = await api.getClassificationDatasetStaticAnalysis(
+      const result = await api.getRegressionDatasetStaticAnalysis(
         datasetName ?? ""
       )
       setLabel(result.label)
@@ -85,16 +89,26 @@ const DatasetClassification = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const onChangeTrainSize = (e: any) => {
+    const { name, value, type, checked } = e.target
+
+    setFormValuesTrainSize((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }))
+  }
+
   const handleSubmit = async () => {
     setLoadingForm(true)
     try {
-      const result = await api.getClassificationDatasetSets(
+      const result = await api.getRegressionDatasetSets(
         datasetName ?? "",
-        trainSize
+        formValuesTrainSize.train_size,
+        formValuesTrainSize.checkbox
       )
       setTrainSet(result.train_data)
       setTestSet(result.test_data)
-      setTrainSize("")
+      setFormValuesTrainSize({ train_size: "", checkbox: false })
       setOpenTrain(true)
     } catch (e: any) {
       console.error(String(e))
@@ -122,9 +136,9 @@ const DatasetClassification = () => {
     return (
       <>
         <SubHeader
-          showButtonClassification={true}
-          showButtonRegression={false}
-          text={`BINARNA KLASIFIKACIJA - ${label}`}
+          showButtonClassification={false}
+          showButtonRegression={true}
+          text={`LINEARNA REGRESIJA - ${label}`}
         />
         <Train
           trainData={trainSet}
@@ -147,12 +161,11 @@ const DatasetClassification = () => {
     return (
       <>
         <SubHeader
-          showButtonClassification={true}
-          showButtonRegression={false}
-          text={`BINARNA KLASIFIKACIJA - ${label}`}
+          showButtonClassification={false}
+          showButtonRegression={true}
+          text={`LINEARNA REGRESIJA - ${label}`}
         />
         <Test
-          data={[]}
           trainData={trainSet}
           testData={testSet}
           setOpenTrain={setOpenTrain}
@@ -167,9 +180,9 @@ const DatasetClassification = () => {
   return (
     <>
       <SubHeader
-        showButtonClassification={true}
-        showButtonRegression={false}
-        text={`BINARNA KLASIFIKACIJA - ${label}`}
+        showButtonClassification={false}
+        showButtonRegression={true}
+        text={`LINEARNA REGRESIJA - ${label}`}
       />
       <Box
         sx={{
@@ -180,7 +193,7 @@ const DatasetClassification = () => {
       >
         <Button
           onClick={() => {
-            navigate("/classification/dataset")
+            navigate("/regression/dataset")
           }}
           variant="contained"
           color="error"
@@ -215,15 +228,13 @@ const DatasetClassification = () => {
         categoricalColumnsPresent={categoricalColumnsPresent}
       />
 
-      <Dialog open={openForm} onClose={() => setOpenForm(false)}>
+      <Dialog open={openForm} onClose={() => {}}>
         <DialogContent>
           <DialogContentText>
             {loadingForm ? (
               <CircularProgress />
             ) : (
-              <TrainSetForm
-                onChange={(e: any) => setTrainSize(e.target.value)}
-              />
+              <TrainSetForm onChange={onChangeTrainSize} />
             )}
           </DialogContentText>
         </DialogContent>
@@ -231,12 +242,16 @@ const DatasetClassification = () => {
           <Button
             onClick={() => {
               setOpenForm(false)
-              setTrainSize("")
+              setFormValuesTrainSize({ train_size: "", checkbox: false })
             }}
           >
             Odustani
           </Button>
-          <Button onClick={handleSubmit} autoFocus disabled={trainSize === ""}>
+          <Button
+            onClick={handleSubmit}
+            autoFocus
+            disabled={formValuesTrainSize.train_size === ""}
+          >
             Nastavi na treniranje
           </Button>
         </DialogActions>
@@ -245,4 +260,4 @@ const DatasetClassification = () => {
   )
 }
 
-export default DatasetClassification
+export default Regression

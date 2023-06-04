@@ -61,21 +61,18 @@ export class Api {
     return result
   }
 
-  async testGeneratedDataClassification(
+  async testDataClassification(
     testData: DataPoint[] | DatasetObject[],
     trainData: DataPoint[] | DatasetObject[],
     latestParams: LatestParams,
     dataset?: string
   ) {
-    const result = await this.fetchProxy.post(
-      "/classification/generated/test",
-      {
-        test_data: testData,
-        train_data: trainData,
-        latest_params: latestParams,
-        dataset: dataset,
-      }
-    )
+    const result = await this.fetchProxy.post("/classification/test", {
+      test_data: testData,
+      train_data: trainData,
+      latest_params: latestParams,
+      dataset: dataset,
+    })
 
     return result
   }
@@ -130,6 +127,17 @@ export class Api {
     return result
   }
 
+  async getClassificationDatasetCountPlot(dataset: string) {
+    const result = await this.fetchProxy.post(
+      "/classification/dataset/count-plot",
+      {
+        dataset,
+      }
+    )
+
+    return result
+  }
+
   async getClassificationDatasetSets(dataset: string, train_size: string) {
     const result = await this.fetchProxy.post("/classification/dataset/sets", {
       dataset,
@@ -161,6 +169,98 @@ export class Api {
         input: input,
       }
     )
+
+    return result
+  }
+
+  async getRegressionDatasets() {
+    const result = await this.fetchProxy.get("/regression/datasets")
+
+    return result
+  }
+
+  async getRegressionDatasetStaticAnalysis(dataset: string) {
+    const result = await this.fetchProxy.post(
+      "/regression/dataset/statistical-analysis",
+      { dataset }
+    )
+
+    return result
+  }
+
+  async getRegressionDatasetBoxPlot(dataset: string) {
+    const result = await this.fetchProxy.post("/regression/dataset/box-plot", {
+      dataset,
+    })
+
+    return result
+  }
+
+  async getRegressionDatasetHistogram(dataset: string) {
+    const result = await this.fetchProxy.post("/regression/dataset/histogram", {
+      dataset,
+    })
+
+    return result
+  }
+
+  async getRegressionDatasetCountPlot(dataset: string) {
+    const result = await this.fetchProxy.post(
+      "/regression/dataset/count-plot",
+      {
+        dataset,
+      }
+    )
+
+    return result
+  }
+
+  async getRegressionDatasetSets(
+    dataset: string,
+    train_size: string,
+    checkbox: boolean
+  ) {
+    const result = await this.fetchProxy.post("/regression/dataset/sets", {
+      dataset,
+      train_size,
+      checkbox,
+    })
+
+    return result
+  }
+
+  async trainDataRegression(
+    max_iter: number,
+    learning_rate: number,
+    optimizer: "" | "SGD" | "Adam",
+    criterion: "" | "MSELoss" | "L1Loss" | "SmoothL1Loss",
+    data: DataPoint[] | DatasetObject[],
+    dataset?: string
+  ) {
+    const result = await this.fetchProxy.post("/regression/train", {
+      data,
+      dataset,
+      max_iter,
+      learning_rate,
+      optimizer,
+      criterion,
+    })
+
+    return result
+  }
+
+  async testDataRegression(
+    testData: DataPoint[] | DatasetObject[],
+    trainData: DataPoint[] | DatasetObject[],
+    latestParams: LatestParams,
+    dataset?: string
+  ) {
+    const result = await this.fetchProxy.post("/regression/test", {
+      test_data: testData,
+      train_data: trainData,
+      latest_params: latestParams,
+      dataset: dataset,
+    })
 
     return result
   }
