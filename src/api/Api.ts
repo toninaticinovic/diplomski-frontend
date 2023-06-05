@@ -264,4 +264,27 @@ export class Api {
 
     return result
   }
+
+  async getPredictDatasetRegressionFields(dataset: string) {
+    const result = await this.fetchProxy.post(
+      "/regression/dataset/predict-fields",
+      { dataset }
+    )
+
+    return result
+  }
+
+  async predictDatasetDataRegression(
+    latestParams: LatestParams,
+    dataset: string,
+    input: string[]
+  ) {
+    const result = await this.fetchProxy.post("/regression/dataset/predict", {
+      latest_params: latestParams,
+      dataset: dataset,
+      input: input,
+    })
+
+    return result
+  }
 }

@@ -7,9 +7,13 @@ import CountPlotCarousel from "../components/Carousels/CountPlotCarousel"
 
 interface Props {
   categoricalColumnsPresent: boolean
+  isClassification: boolean
 }
 
-const CountPlotContainer = ({ categoricalColumnsPresent }: Props) => {
+const CountPlotContainer = ({
+  categoricalColumnsPresent,
+  isClassification,
+}: Props) => {
   const api = Api.getInstance()
   const { datasetName } = useParams()
 
@@ -19,7 +23,12 @@ const CountPlotContainer = ({ categoricalColumnsPresent }: Props) => {
   const handleShowCountPlots = async () => {
     setCountPlotDataLoading(true)
     try {
-      const result = await api.getRegressionDatasetCountPlot(datasetName ?? "")
+      let result: CountPlotResult[] = []
+      if (isClassification) {
+        result = await api.getClassificationDatasetCountPlot(datasetName ?? "")
+      } else {
+        result = await api.getRegressionDatasetCountPlot(datasetName ?? "")
+      }
       setCountPlotData(result)
     } catch (e: any) {
       console.error(String(e))

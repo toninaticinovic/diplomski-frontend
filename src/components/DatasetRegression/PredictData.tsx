@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react"
+import { Box, Button, CircularProgress } from "@mui/material"
 import { Api } from "../../api"
 import { Field, LatestParams } from "../../types"
 import PredictDataForm from "../PredictDataForm"
-import { Box, Button, CircularProgress } from "@mui/material"
 
 interface Props {
   dataset: string
   latestParams: LatestParams
 }
 
-const PredictDataDataset = ({ dataset, latestParams }: Props) => {
+const PredictData = ({ dataset, latestParams }: Props) => {
   const api = Api.getInstance()
 
   const [loading, setLoading] = useState(false)
   const [formValues, setFormValues] = useState<{ [key: string]: string }>({})
   const [fields, setFields] = useState<Field[]>([])
-  const [result, setResult] = useState({ prediction: "", description: "" })
+  const [result, setResult] = useState({ prediction: "", outcome: "" })
 
   async function getFields() {
     setLoading(true)
     try {
-      const result = await api.getPredictDatasetClassificationFields(dataset)
+      const result = await api.getPredictDatasetRegressionFields(dataset)
       setFields(result.fields)
     } catch (e: any) {
       console.error(String(e))
@@ -45,7 +45,7 @@ const PredictDataDataset = ({ dataset, latestParams }: Props) => {
     const formValuesArray: string[] = Object.values(formValues)
     setLoading(true)
     try {
-      const result = await api.predictDatasetDataClassification(
+      const result = await api.predictDatasetDataRegression(
         latestParams,
         dataset,
         formValuesArray
@@ -60,7 +60,7 @@ const PredictDataDataset = ({ dataset, latestParams }: Props) => {
 
   const handleReset = () => {
     setFormValues({})
-    setResult({ prediction: "", description: "" })
+    setResult({ prediction: "", outcome: "" })
   }
 
   const disabled = fields.some((field) => {
@@ -89,21 +89,12 @@ const PredictDataDataset = ({ dataset, latestParams }: Props) => {
               .join(", ")}
             )
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Box>
-              Klasificiran u klasu: <b>{result.prediction} </b>
-            </Box>
-            <Box>
-              Značenje klase: <b>{result.description}</b>
-            </Box>
+
+          <Box sx={{ textAlign: "center" }}>
+            Predviđena vrijednost izlazne varijable <b>{result.outcome}</b> iznosi:{" "}
+            <b>{result.prediction} </b>
           </Box>
+
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleReset}>Ponovno</Button>
           </Box>
@@ -113,4 +104,4 @@ const PredictDataDataset = ({ dataset, latestParams }: Props) => {
   )
 }
 
-export default PredictDataDataset
+export default PredictData

@@ -8,8 +8,8 @@ import {
   Stack,
   Button,
 } from "@mui/material"
-import { Field } from "../../types"
-import convertToNormalCase from "../../utils/convert-to-normal-word"
+import { Field } from "../types"
+import convertToNormalCase from "../utils/convert-to-normal-word"
 
 interface Props {
   fields: Field[]
@@ -38,9 +38,10 @@ const PredictDataForm = ({
               type="number"
               fullWidth
               onChange={(e) => onChange(e, field.name)}
+              required
             />
           ) : (
-            <FormControl key={field.name} fullWidth>
+            <FormControl key={field.name} fullWidth variant="standard" required>
               <InputLabel>{convertToNormalCase(field.name)}</InputLabel>
               <Select onChange={(e) => onChange(e, field.name)}>
                 {field.options?.map((option) => (

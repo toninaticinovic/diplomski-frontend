@@ -1,7 +1,12 @@
 import { Box, Button } from "@mui/material"
 import { useState } from "react"
 import { Api } from "../api"
-import { DataPoint, LineParams, LatestParams, FormValuesClassification } from "../types"
+import {
+  DataPoint,
+  LineParams,
+  LatestParams,
+  FormValuesClassification,
+} from "../types"
 import DataChart from "../components/GeneratedDataClassification/DataChart"
 import DataForm from "../components/GeneratedDataClassification/DataForm"
 import Train from "../components/Classification/Train"
@@ -31,12 +36,13 @@ const GeneratedDataClassification = () => {
     train_size: "",
   })
 
-  const [formValuesTrain, setFormValuesTrain] = useState<FormValuesClassification>({
-    max_iter: "",
-    optimizer: "",
-    criterion: "",
-    learning_rate: "",
-  })
+  const [formValuesTrain, setFormValuesTrain] =
+    useState<FormValuesClassification>({
+      max_iter: "",
+      optimizer: "",
+      criterion: "",
+      learning_rate: "",
+    })
 
   const [separable, setSeparable] = useState<undefined | boolean>(undefined)
 
@@ -194,6 +200,7 @@ const GeneratedDataClassification = () => {
               setOpenTrain={setOpenTrain}
               setOpenTest={setOpenTest}
               latestParams={latestParams ?? { w: [], b: 0 }}
+              trainSize={Number(formValues.train_size)}
             />
           )}
         </>

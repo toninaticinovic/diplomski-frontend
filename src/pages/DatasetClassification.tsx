@@ -94,7 +94,6 @@ const DatasetClassification = () => {
       )
       setTrainSet(result.train_data)
       setTestSet(result.test_data)
-      setTrainSize("")
       setOpenTrain(true)
     } catch (e: any) {
       console.error(String(e))
@@ -159,6 +158,7 @@ const DatasetClassification = () => {
           setOpenTest={setOpenTest}
           latestParams={latestParams ?? { w: [], b: 0 }}
           dataset={datasetName}
+          trainSize={Number(trainSize)}
         />
       </>
     )
@@ -209,10 +209,17 @@ const DatasetClassification = () => {
         numDataStats={numDataStats}
       />
 
-      <BoxPlotContainer numericalColumnsPresent={numericalColumnsPresent} />
-      <HistogramContainer numericalColumnsPresent={numericalColumnsPresent} />
+      <BoxPlotContainer
+        numericalColumnsPresent={numericalColumnsPresent}
+        isClassification
+      />
+      <HistogramContainer
+        numericalColumnsPresent={numericalColumnsPresent}
+        isClassification
+      />
       <CountPlotContainer
         categoricalColumnsPresent={categoricalColumnsPresent}
+        isClassification
       />
 
       <Dialog open={openForm} onClose={() => setOpenForm(false)}>

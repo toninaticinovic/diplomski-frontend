@@ -7,9 +7,13 @@ import BoxPlotCarousel from "../components/Carousels/BoxPlotCarousel"
 
 interface Props {
   numericalColumnsPresent: boolean
+  isClassification: boolean
 }
 
-const BoxPlotContainer = ({ numericalColumnsPresent }: Props) => {
+const BoxPlotContainer = ({
+  numericalColumnsPresent,
+  isClassification,
+}: Props) => {
   const api = Api.getInstance()
   const { datasetName } = useParams()
 
@@ -19,7 +23,12 @@ const BoxPlotContainer = ({ numericalColumnsPresent }: Props) => {
   const handleShowBoxPlots = async () => {
     setBoxPlotDataLoading(true)
     try {
-      const result = await api.getRegressionDatasetBoxPlot(datasetName ?? "")
+      let result: BoxPlotResult[] = []
+      if (isClassification) {
+        result = await api.getClassificationDatasetBoxPlot(datasetName ?? "")
+      } else {
+        result = await api.getRegressionDatasetBoxPlot(datasetName ?? "")
+      }
       setBoxPlotData(result)
     } catch (e: any) {
       console.error(String(e))

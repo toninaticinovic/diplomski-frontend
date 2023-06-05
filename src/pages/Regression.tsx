@@ -108,7 +108,6 @@ const Regression = () => {
       )
       setTrainSet(result.train_data)
       setTestSet(result.test_data)
-      setFormValuesTrainSize({ train_size: "", checkbox: false })
       setOpenTrain(true)
     } catch (e: any) {
       console.error(String(e))
@@ -171,7 +170,8 @@ const Regression = () => {
           setOpenTrain={setOpenTrain}
           setOpenTest={setOpenTest}
           latestParams={latestParams ?? { w: [], b: 0 }}
-          dataset={datasetName}
+          dataset={datasetName ?? ""}
+          trainSize={Number(formValuesTrainSize.train_size)}
         />
       </>
     )
@@ -222,10 +222,17 @@ const Regression = () => {
         numDataStats={numDataStats}
       />
 
-      <BoxPlotContainer numericalColumnsPresent={numericalColumnsPresent} />
-      <HistogramContainer numericalColumnsPresent={numericalColumnsPresent} />
+      <BoxPlotContainer
+        numericalColumnsPresent={numericalColumnsPresent}
+        isClassification={false}
+      />
+      <HistogramContainer
+        numericalColumnsPresent={numericalColumnsPresent}
+        isClassification={false}
+      />
       <CountPlotContainer
         categoricalColumnsPresent={categoricalColumnsPresent}
+        isClassification={false}
       />
 
       <Dialog open={openForm} onClose={() => {}}>

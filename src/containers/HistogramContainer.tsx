@@ -7,9 +7,13 @@ import HistogramCarousel from "../components/Carousels/HistogramCarousel"
 
 interface Props {
   numericalColumnsPresent: boolean
+  isClassification: boolean
 }
 
-const HistogramContainer = ({ numericalColumnsPresent }: Props) => {
+const HistogramContainer = ({
+  numericalColumnsPresent,
+  isClassification,
+}: Props) => {
   const api = Api.getInstance()
   const { datasetName } = useParams()
 
@@ -20,7 +24,12 @@ const HistogramContainer = ({ numericalColumnsPresent }: Props) => {
   const handleShowHistograms = async () => {
     setHistogramDataLoading(true)
     try {
-      const result = await api.getRegressionDatasetHistogram(datasetName ?? "")
+      let result: HistogramResult[] = []
+      if (isClassification) {
+        result = await api.getClassificationDatasetHistogram(datasetName ?? "")
+      } else {
+        result = await api.getRegressionDatasetHistogram(datasetName ?? "")
+      }
       setHistogramData(result)
     } catch (e: any) {
       console.error(String(e))

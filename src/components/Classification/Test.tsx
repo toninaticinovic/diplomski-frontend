@@ -15,7 +15,12 @@ import {
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import { useEffect, useState } from "react"
 import { Api } from "../../api"
-import { DataPoint, DatasetObject, LatestParams, TestResultClassification } from "../../types"
+import {
+  DataPoint,
+  DatasetObject,
+  LatestParams,
+  TestResultClassification,
+} from "../../types"
 import ConfusionMatrix from "../ConfusionMatrix"
 import PredictDataGenerated from "../GeneratedDataClassification/PredictData"
 import PredictDataDataset from "../DatasetClassification/PredictData"
@@ -28,6 +33,7 @@ interface Props {
   setOpenTest: (open: boolean) => void
   latestParams: LatestParams
   dataset?: string
+  trainSize: number
 }
 
 const Test = ({
@@ -38,6 +44,7 @@ const Test = ({
   setOpenTrain,
   latestParams,
   dataset,
+  trainSize,
 }: Props) => {
   const api = Api.getInstance()
 
@@ -135,7 +142,12 @@ const Test = ({
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Skup podataka za treniranje</TableCell>
+                <TableCell>
+                  <Box>Skup podataka za treniranje</Box>
+                  <Box
+                    sx={{ fontSize: "12px" }}
+                  >{`Veličina: ${trainSize}`}</Box>
+                </TableCell>
                 <TableCell>{result?.accuracy_train?.toFixed(2)}%</TableCell>
                 <TableCell>{result?.f1_score_train?.toFixed(2)}%</TableCell>
                 <TableCell>
@@ -145,7 +157,12 @@ const Test = ({
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Skup podataka za testiranje</TableCell>
+                <TableCell>
+                  <Box>Skup podataka za testiranje</Box>
+                  <Box sx={{ fontSize: "12px" }}>{`Veličina: ${
+                    1 - trainSize
+                  }`}</Box>
+                </TableCell>
                 <TableCell>{result?.accuracy_test?.toFixed(2)}%</TableCell>
                 <TableCell>{result?.f1_score_test?.toFixed(2)}%</TableCell>
                 <TableCell>

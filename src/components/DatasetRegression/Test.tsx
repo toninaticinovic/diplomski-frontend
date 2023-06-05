@@ -20,9 +20,7 @@ import {
   LatestParams,
   TestResultRegression,
 } from "../../types"
-import ConfusionMatrix from "../ConfusionMatrix"
-import PredictDataGenerated from "../GeneratedDataClassification/PredictData"
-import PredictDataDataset from "../DatasetClassification/PredictData"
+import PredictData from "./PredictData"
 
 interface Props {
   testData: DataPoint[] | DatasetObject[]
@@ -30,7 +28,8 @@ interface Props {
   setOpenTrain: (open: boolean) => void
   setOpenTest: (open: boolean) => void
   latestParams: LatestParams
-  dataset?: string
+  dataset: string
+  trainSize: number
 }
 
 const Test = ({
@@ -40,6 +39,7 @@ const Test = ({
   setOpenTrain,
   latestParams,
   dataset,
+  trainSize,
 }: Props) => {
   const api = Api.getInstance()
 
@@ -109,12 +109,22 @@ const Test = ({
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Skup podataka za treniranje</TableCell>
+                <TableCell>
+                  <Box>Skup podataka za treniranje</Box>
+                  <Box
+                    sx={{ fontSize: "12px" }}
+                  >{`Veličina: ${trainSize}`}</Box>
+                </TableCell>
                 <TableCell>{result?.r2_score_train?.toFixed(2)}</TableCell>
                 <TableCell>{result?.mse_train?.toFixed(2)}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Skup podataka za testiranje</TableCell>
+                <TableCell>
+                  <Box>Skup podataka za testiranje</Box>
+                  <Box sx={{ fontSize: "12px" }}>{`Veličina: ${(
+                    1 - trainSize
+                  ).toFixed(1)}`}</Box>
+                </TableCell>
                 <TableCell>{result?.r2_score_test?.toFixed(2)}</TableCell>
                 <TableCell>{result?.mse_test?.toFixed(2)}</TableCell>
               </TableRow>
@@ -130,32 +140,22 @@ const Test = ({
               }}
             >
               <Button onClick={handleReturn}> Vrati se na treniranje </Button>
-              {/* <Button onClick={() => setOpenDialog(true)} variant="outlined">
+              <Button onClick={() => setOpenDialog(true)} variant="outlined">
                 Unesi podatak za predikciju izlaza
-              </Button> */}
+              </Button>
             </Box>
           </Box>
 
-          {/* <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+          <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
             <DialogContent sx={{ pb: 0 }}>
-              {dataset ? (
-                <PredictDataDataset
-                  dataset={dataset}
-                  latestParams={latestParams}
-                />
-              ) : (
-                <PredictDataGenerated
-                  data={data as DataPoint[]}
-                  latestParams={latestParams}
-                />
-              )}
+              <PredictData dataset={dataset} latestParams={latestParams} />
             </DialogContent>
             <DialogActions
               sx={{ display: "flex", justifyContent: "flex-start" }}
             >
               <Button onClick={() => setOpenDialog(false)}>Zatvori</Button>
             </DialogActions>
-          </Dialog> */}
+          </Dialog>
         </>
       )}
     </Box>
