@@ -1,4 +1,4 @@
-import { DataPoint, DatasetObject, LatestParams } from "../types"
+import { DataPoint, DatasetObject } from "../types"
 import { FetchProxy } from "./FetchProxy"
 
 export class Api {
@@ -64,28 +64,21 @@ export class Api {
   async testDataClassification(
     testData: DataPoint[] | DatasetObject[],
     trainData: DataPoint[] | DatasetObject[],
-    latestParams: LatestParams,
     dataset?: string
   ) {
     const result = await this.fetchProxy.post("/classification/test", {
       test_data: testData,
       train_data: trainData,
-      latest_params: latestParams,
       dataset: dataset,
     })
 
     return result
   }
 
-  async predictGeneratedDataClassification(
-    latestParams: LatestParams,
-    x1: number,
-    x2: number
-  ) {
+  async predictGeneratedDataClassification(x1: number, x2: number) {
     const result = await this.fetchProxy.post(
       "/classification/generated/predict",
       {
-        latest_params: latestParams,
         x1: x1,
         x2: x2,
       }
@@ -156,15 +149,10 @@ export class Api {
     return result
   }
 
-  async predictDatasetDataClassification(
-    latestParams: LatestParams,
-    dataset: string,
-    input: string[]
-  ) {
+  async predictDatasetDataClassification(dataset: string, input: string[]) {
     const result = await this.fetchProxy.post(
       "/classification/dataset/predict",
       {
-        latest_params: latestParams,
         dataset: dataset,
         input: input,
       }
@@ -252,13 +240,11 @@ export class Api {
   async testDataRegression(
     testData: DataPoint[] | DatasetObject[],
     trainData: DataPoint[] | DatasetObject[],
-    latestParams: LatestParams,
     dataset?: string
   ) {
     const result = await this.fetchProxy.post("/regression/test", {
       test_data: testData,
       train_data: trainData,
-      latest_params: latestParams,
       dataset: dataset,
     })
 
@@ -274,13 +260,8 @@ export class Api {
     return result
   }
 
-  async predictDatasetDataRegression(
-    latestParams: LatestParams,
-    dataset: string,
-    input: string[]
-  ) {
+  async predictDatasetDataRegression(dataset: string, input: string[]) {
     const result = await this.fetchProxy.post("/regression/dataset/predict", {
-      latest_params: latestParams,
       dataset: dataset,
       input: input,
     })

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react"
 import { Api } from "../../api"
-import { Field, LatestParams } from "../../types"
+import { Field } from "../../types"
 import PredictDataForm from "../PredictDataForm"
 import { Box, Button, CircularProgress } from "@mui/material"
 
 interface Props {
   dataset: string
-  latestParams: LatestParams
 }
 
-const PredictDataDataset = ({ dataset, latestParams }: Props) => {
+const PredictDataDataset = ({ dataset }: Props) => {
   const api = Api.getInstance()
 
   const [loading, setLoading] = useState(false)
@@ -46,7 +45,6 @@ const PredictDataDataset = ({ dataset, latestParams }: Props) => {
     setLoading(true)
     try {
       const result = await api.predictDatasetDataClassification(
-        latestParams,
         dataset,
         formValuesArray
       )

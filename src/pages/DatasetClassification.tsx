@@ -20,6 +20,7 @@ import {
   DialogContent,
   DialogActions,
   DialogContentText,
+  Tooltip,
 } from "@mui/material"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
@@ -29,6 +30,7 @@ import Test from "../components/Classification/Test"
 import BoxPlotContainer from "../containers/BoxPlotContainer"
 import HistogramContainer from "../containers/HistogramContainer"
 import CountPlotContainer from "../containers/CountPlotContainer"
+import PredictData from "../components/DatasetClassification/PredictData"
 
 const DatasetClassification = () => {
   const api = Api.getInstance()
@@ -40,6 +42,9 @@ const DatasetClassification = () => {
   const [dataStats, setDataStats] = useState<DataStats[]>([])
   const [numDataStats, setNumDataStats] = useState<NumDataStats[]>([])
   const [dataSize, setDataSize] = useState<DataSize | undefined>(undefined)
+
+  const [modelExists, setModelExists] = useState(false)
+  const [openPredict, setOpenPredict] = useState(false)
 
   const [openTrain, setOpenTrain] = useState(false)
   const [trainSize, setTrainSize] = useState("")
@@ -73,6 +78,7 @@ const DatasetClassification = () => {
       setDataSize(result.data_size)
       setDataStats(result.data_stats)
       setNumDataStats(result.num_data_stats)
+      setModelExists(result.model_exists)
     } catch (e: any) {
       console.error(String(e))
     } finally {
@@ -201,6 +207,24 @@ const DatasetClassification = () => {
           <ArrowForwardIcon />
         </Button>
       </Box>
+      {modelExists && (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Tooltip
+            title={
+              "Omogućeno predviđanje podataka na temelju prethodnog treniranja modela."
+            }
+            arrow
+          >
+            <Button
+              color="warning"
+              variant="outlined"
+              onClick={() => setOpenPredict(true)}
+            >
+              Predvidi podatke
+            </Button>
+          </Tooltip>
+        </Box>
+      )}
       <Box sx={{ mt: 1, textAlign: "center" }}>
         {`Broj podataka: ${dataSize?.count}, dimezija ulaznih podataka: ${dataSize?.dimension}`}
       </Box>
@@ -246,6 +270,15 @@ const DatasetClassification = () => {
           <Button onClick={handleSubmit} autoFocus disabled={trainSize === ""}>
             Nastavi na treniranje
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={openPredict} onClose={() => setOpenPredict(false)}>
+        <DialogContent sx={{ pb: 0 }}>
+          <PredictData dataset={datasetName ?? ""} />
+        </DialogContent>
+        <DialogActions sx={{ display: "flex", justifyContent: "flex-start" }}>
+          <Button onClick={() => setOpenPredict(false)}>Zatvori</Button>
         </DialogActions>
       </Dialog>
     </>

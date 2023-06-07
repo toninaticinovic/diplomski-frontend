@@ -4,7 +4,6 @@ import {
   DataPoint,
   DatasetObject,
   FormValuesRegression,
-  LatestParams,
   LineParams,
   LossParams,
 } from "../../types"
@@ -24,7 +23,6 @@ interface Props {
   setLineParams?: (lineParams: LineParams[]) => void
   lossParams?: LossParams[]
   setLossParams?: (lossParams: LossParams[]) => void
-  setLatestParams: (params: LatestParams) => void
   formValues: FormValuesRegression
   setFormValues: (formValues: FormValuesRegression) => void
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -40,7 +38,6 @@ const Train = ({
   setLineParams,
   lossParams,
   setLossParams,
-  setLatestParams,
   formValues,
   setFormValues,
   onChange,
@@ -65,7 +62,6 @@ const Train = ({
       console.log(result)
       setLineParams && setLineParams(result.result.line_params)
       setLossParams && setLossParams(result.result.loss_params)
-      setLatestParams(result.latest_params)
     } catch (e: any) {
       console.error(String(e))
     } finally {
@@ -99,7 +95,6 @@ const Train = ({
     })
     setLineParams && setLineParams([])
     setLossParams && setLossParams([])
-    setLatestParams({ w: [], b: 0 })
   }
 
   const handleOpenTest = () => {

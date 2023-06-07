@@ -10,16 +10,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  Tooltip,
 } from "@mui/material"
 import { useEffect, useState } from "react"
 import { Api } from "../../api"
-import {
-  DataPoint,
-  DatasetObject,
-  LatestParams,
-  TestResultRegression,
-} from "../../types"
+import { DataPoint, DatasetObject, TestResultRegression } from "../../types"
 import PredictData from "./PredictData"
 
 interface Props {
@@ -27,7 +21,6 @@ interface Props {
   trainData: DataPoint[] | DatasetObject[]
   setOpenTrain: (open: boolean) => void
   setOpenTest: (open: boolean) => void
-  latestParams: LatestParams
   dataset: string
   trainSize: number
 }
@@ -37,7 +30,6 @@ const Test = ({
   trainData,
   setOpenTest,
   setOpenTrain,
-  latestParams,
   dataset,
   trainSize,
 }: Props) => {
@@ -50,12 +42,7 @@ const Test = ({
   async function modelTest() {
     setLoading(true)
     try {
-      const result = await api.testDataRegression(
-        testData,
-        trainData,
-        latestParams,
-        dataset
-      )
+      const result = await api.testDataRegression(testData, trainData, dataset)
       setResult(result)
     } catch (e: any) {
       console.error(String(e))
@@ -73,6 +60,9 @@ const Test = ({
     setOpenTest(false)
     setOpenTrain(true)
   }
+
+  const trainSizeFormatted = trainSize.toFixed(2)
+  const testSize = (1 - trainSize).toFixed(2)
 
   return (
     <Box>
@@ -113,7 +103,7 @@ const Test = ({
                   <Box>Skup podataka za treniranje</Box>
                   <Box
                     sx={{ fontSize: "12px" }}
-                  >{`Veličina: ${trainSize}`}</Box>
+                  >{`Veličina: ${trainSizeFormatted}`}</Box>
                 </TableCell>
                 <TableCell>{result?.r2_score_train?.toFixed(2)}</TableCell>
                 <TableCell>{result?.mse_train?.toFixed(2)}</TableCell>
@@ -121,9 +111,7 @@ const Test = ({
               <TableRow>
                 <TableCell>
                   <Box>Skup podataka za testiranje</Box>
-                  <Box sx={{ fontSize: "12px" }}>{`Veličina: ${(
-                    1 - trainSize
-                  ).toFixed(1)}`}</Box>
+                  <Box sx={{ fontSize: "12px" }}>{`Veličina: ${testSize}`}</Box>
                 </TableCell>
                 <TableCell>{result?.r2_score_test?.toFixed(2)}</TableCell>
                 <TableCell>{result?.mse_test?.toFixed(2)}</TableCell>
@@ -148,7 +136,7 @@ const Test = ({
 
           <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
             <DialogContent sx={{ pb: 0 }}>
-              <PredictData dataset={dataset} latestParams={latestParams} />
+              <PredictData dataset={dataset} />
             </DialogContent>
             <DialogActions
               sx={{ display: "flex", justifyContent: "flex-start" }}

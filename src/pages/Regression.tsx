@@ -5,7 +5,6 @@ import {
   DataStats,
   DatasetObject,
   FormValuesRegression,
-  LatestParams,
   LossParams,
   NumDataStats,
 } from "../types"
@@ -18,6 +17,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Tooltip,
 } from "@mui/material"
 import StatisticalAnalysisTable from "../components/StatisticalAnalysisTable"
 import SubHeader from "../components/SubHeader"
@@ -29,6 +29,7 @@ import CountPlotContainer from "../containers/CountPlotContainer"
 import TrainSetForm from "../components/DatasetRegression/TrainSetForm"
 import Train from "../components/DatasetRegression/Train"
 import Test from "../components/DatasetRegression/Test"
+import PredictData from "../components/DatasetRegression/PredictData"
 
 const Regression = () => {
   const api = Api.getInstance()
@@ -41,6 +42,9 @@ const Regression = () => {
   const [numDataStats, setNumDataStats] = useState<NumDataStats[]>([])
 
   const [dataSize, setDataSize] = useState<DataSize | undefined>(undefined)
+
+  const [modelExists, setModelExists] = useState(false)
+  const [openPredict, setOpenPredict] = useState(false)
 
   const [loadingForm, setLoadingForm] = useState(false)
   const [openForm, setOpenForm] = useState(false)
@@ -55,7 +59,6 @@ const Regression = () => {
   const [openTest, setOpenTest] = useState(false)
 
   const [lossParams, setLossParams] = useState<LossParams[]>([])
-  const [latestParams, setLatestParams] = useState<LatestParams>()
 
   const [formValues, setFormValues] = useState<FormValuesRegression>({
     max_iter: "",
@@ -77,6 +80,7 @@ const Regression = () => {
       setDataSize(result.data_size)
       setDataStats(result.data_stats)
       setNumDataStats(result.num_data_stats)
+      setModelExists(result.model_exists)
     } catch (e: any) {
       console.error(String(e))
     } finally {
@@ -147,7 +151,6 @@ const Regression = () => {
           dataset={datasetName}
           setLossParams={setLossParams}
           lossParams={lossParams}
-          setLatestParams={setLatestParams}
           formValues={formValues}
           setFormValues={setFormValues}
           onChange={onChangeTrain}
@@ -169,7 +172,6 @@ const Regression = () => {
           testData={testSet}
           setOpenTrain={setOpenTrain}
           setOpenTest={setOpenTest}
-          latestParams={latestParams ?? { w: [], b: 0 }}
           dataset={datasetName ?? ""}
           trainSize={Number(formValuesTrainSize.train_size)}
         />
@@ -214,6 +216,24 @@ const Regression = () => {
           <ArrowForwardIcon />
         </Button>
       </Box>
+      {modelExists && (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Tooltip
+            title={
+              "Omogućeno predviđanje podataka na temelju prethodnog treniranja modela."
+            }
+            arrow
+          >
+            <Button
+              color="warning"
+              variant="outlined"
+              onClick={() => setOpenPredict(true)}
+            >
+              Predvidi podatke
+            </Button>
+          </Tooltip>
+        </Box>
+      )}
       <Box sx={{ mt: 1, textAlign: "center" }}>
         {`Broj podataka: ${dataSize?.count}, dimezija ulaznih podataka: ${dataSize?.dimension}`}
       </Box>
@@ -261,6 +281,15 @@ const Regression = () => {
           >
             Nastavi na treniranje
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={openPredict} onClose={() => setOpenPredict(false)}>
+        <DialogContent sx={{ pb: 0 }}>
+          <PredictData dataset={datasetName ?? ""} />
+        </DialogContent>
+        <DialogActions sx={{ display: "flex", justifyContent: "flex-start" }}>
+          <Button onClick={() => setOpenPredict(false)}>Zatvori</Button>
         </DialogActions>
       </Dialog>
     </>

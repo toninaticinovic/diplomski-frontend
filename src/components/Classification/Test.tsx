@@ -58,7 +58,6 @@ const Test = ({
       const result = await api.testDataClassification(
         testData as DataPoint[],
         trainData as DataPoint[],
-        latestParams,
         dataset
       )
       setResult(result)
@@ -78,6 +77,9 @@ const Test = ({
     setOpenTest(false)
     setOpenTrain(true)
   }
+
+  const trainSizeFormatted = trainSize.toFixed(2)
+  const testSize = (1 - trainSize).toFixed(2)
 
   return (
     <Box>
@@ -146,7 +148,7 @@ const Test = ({
                   <Box>Skup podataka za treniranje</Box>
                   <Box
                     sx={{ fontSize: "12px" }}
-                  >{`Veličina: ${trainSize}`}</Box>
+                  >{`Veličina: ${trainSizeFormatted}`}</Box>
                 </TableCell>
                 <TableCell>{result?.accuracy_train?.toFixed(2)}%</TableCell>
                 <TableCell>{result?.f1_score_train?.toFixed(2)}%</TableCell>
@@ -159,9 +161,7 @@ const Test = ({
               <TableRow>
                 <TableCell>
                   <Box>Skup podataka za testiranje</Box>
-                  <Box sx={{ fontSize: "12px" }}>{`Veličina: ${
-                    1 - trainSize
-                  }`}</Box>
+                  <Box sx={{ fontSize: "12px" }}>{`Veličina: ${testSize}`}</Box>
                 </TableCell>
                 <TableCell>{result?.accuracy_test?.toFixed(2)}%</TableCell>
                 <TableCell>{result?.f1_score_test?.toFixed(2)}%</TableCell>
@@ -192,10 +192,7 @@ const Test = ({
           <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
             <DialogContent sx={{ pb: 0 }}>
               {dataset ? (
-                <PredictDataDataset
-                  dataset={dataset}
-                  latestParams={latestParams}
-                />
+                <PredictDataDataset dataset={dataset} />
               ) : (
                 <PredictDataGenerated
                   data={data as DataPoint[]}

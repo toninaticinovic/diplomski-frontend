@@ -28,7 +28,6 @@ const PredictDataGenerated = ({ latestParams, data }: Props) => {
     setLoading(true)
     try {
       const result = await api.predictGeneratedDataClassification(
-        latestParams,
         parseFloat(formValues.x1),
         parseFloat(formValues.x2)
       )

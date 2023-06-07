@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react"
 import { Box, Button, CircularProgress } from "@mui/material"
 import { Api } from "../../api"
-import { Field, LatestParams } from "../../types"
+import { Field } from "../../types"
 import PredictDataForm from "../PredictDataForm"
 
 interface Props {
   dataset: string
-  latestParams: LatestParams
 }
 
-const PredictData = ({ dataset, latestParams }: Props) => {
+const PredictData = ({ dataset }: Props) => {
   const api = Api.getInstance()
 
   const [loading, setLoading] = useState(false)
@@ -46,7 +45,6 @@ const PredictData = ({ dataset, latestParams }: Props) => {
     setLoading(true)
     try {
       const result = await api.predictDatasetDataRegression(
-        latestParams,
         dataset,
         formValuesArray
       )
@@ -91,8 +89,8 @@ const PredictData = ({ dataset, latestParams }: Props) => {
           </Box>
 
           <Box sx={{ textAlign: "center" }}>
-            Predviđena vrijednost izlazne varijable <b>{result.outcome}</b> iznosi:{" "}
-            <b>{result.prediction} </b>
+            Predviđena vrijednost izlazne varijable <b>{result.outcome}</b>{" "}
+            iznosi: <b>{Number(result.prediction).toFixed(2)} </b>
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
