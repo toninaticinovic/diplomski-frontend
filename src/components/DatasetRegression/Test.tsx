@@ -88,7 +88,7 @@ const Test = ({
                   <Box sx={{ color: "primary.main" }}>Skup podataka</Box>
                 </TableCell>
                 <TableCell>
-                  <Box sx={{ color: "primary.main" }}>R2 mjera</Box>
+                  <Box sx={{ color: "primary.main" }}>{'R\u00B2'} mjera</Box>
                 </TableCell>
                 <TableCell>
                   <Box sx={{ color: "primary.main" }}>
